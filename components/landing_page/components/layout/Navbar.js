@@ -130,14 +130,19 @@ const Navbar = () => {
 
         {/* Desktop nav — centred, anchored to the bottom so it rises with the bar */}
         <nav
-          className="absolute hidden items-center gap-1 lg:flex"
-          style={{ left: "50%", transform: "translateX(-50%)", bottom: 11 }}
+          className="absolute hidden flex-nowrap items-center gap-0.5 lg:flex"
+          style={{
+            left: "50%",
+            transform: "translateX(-50%)",
+            bottom: 11,
+            maxWidth: "calc(100vw - 180px)",
+          }}
         >
           {NAV_LINKS.map((link) => (
             <button
               key={link.id}
               onClick={() => go(link.id)}
-              className={`relative cursor-pointer px-[16px] py-2 text-[13px] font-bold uppercase tracking-[0.16em] transition-colors duration-200 ${
+              className={`relative shrink-0 cursor-pointer whitespace-nowrap px-[13px] py-2 text-[13px] font-bold uppercase tracking-[0.1em] transition-colors duration-200 ${
                 activePage === link.id ? "text-gold" : "text-blanc hover:text-gold"
               }`}
             >
@@ -145,7 +150,7 @@ const Navbar = () => {
               {activePage === link.id && (
                 <motion.span
                   layoutId="nav-underline"
-                  className="absolute inset-x-[16px] -bottom-[2px] h-[2px] rounded-full bg-gold"
+                  className="absolute inset-x-[13px] -bottom-[2px] h-[2px] rounded-full bg-gold"
                 />
               )}
             </button>

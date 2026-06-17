@@ -33,9 +33,9 @@ const Footer = () => {
       {/* Gold accent bar */}
       <div className="h-1 w-full bg-gradient-to-r from-transparent via-gold to-transparent" />
 
-      <div className="mx-auto grid max-w-[1080px] grid-cols-1 gap-12 px-7 py-16 md:grid-cols-3">
+      <div className="mx-auto grid max-w-[1080px] grid-cols-1 gap-12 px-7 py-16 text-center md:grid-cols-3 md:text-left">
         {/* Brand */}
-        <div>
+        <div className="flex flex-col items-center md:items-start">
           <div onClick={() => navigate("home")} className="mb-6 cursor-pointer">
             <BrandLogo size={120} />
           </div>
@@ -50,7 +50,7 @@ const Footer = () => {
           <h4 className="mb-5 text-[11px] font-black uppercase tracking-[0.2em] text-gris-fonce">
             Navigation
           </h4>
-          <ul className="flex flex-col gap-3">
+          <ul className="flex flex-col items-center gap-3 md:items-start">
             {FOOTER_LINKS.map((link) => (
               <li key={link.id}>
                 <motion.button
@@ -82,7 +82,10 @@ const Footer = () => {
                 </span>
               );
               return (
-                <li key={i} className="flex items-start gap-3">
+                <li
+                  key={i}
+                  className="flex items-start justify-center gap-3 md:justify-start"
+                >
                   <item.icon className="mt-[2px] h-[18px] w-[18px] flex-none text-gold" />
                   {item.href ? (
                     <a href={item.href} className="transition-colors hover:text-white">

@@ -35,6 +35,9 @@ body {
   font-family: var(--font-inter), "Helvetica Neue", Arial, sans-serif;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  /* clip (not hidden) so it never establishes a scroll container that would
+     break the sticky header — just guards against accidental x-overflow */
+  overflow-x: clip;
 }
 
 @layer utilities {

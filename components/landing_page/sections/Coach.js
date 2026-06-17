@@ -57,7 +57,7 @@ const Coach = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative aspect-[3/4] overflow-hidden rounded-[16px] border border-bord bg-black"
+            className="relative mx-auto aspect-[3/4] w-full max-w-[340px] overflow-hidden rounded-[16px] border border-bord bg-black md:max-w-none"
           >
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-gris-fonce">
               <User className="h-12 w-12" strokeWidth={1.5} />

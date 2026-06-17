@@ -353,7 +353,7 @@ const Agenda = () => {
           <button
             disabled={!canConfirm}
             onClick={confirmBooking}
-            className={`rounded-[10px] px-7 py-[15px] text-[14px] font-bold transition-colors duration-200 ${
+            className={`w-full rounded-[10px] px-7 py-[15px] text-[14px] font-bold transition-colors duration-200 sm:w-auto ${
               canConfirm
                 ? "cursor-pointer bg-gold text-[#0b0b0d] hover:bg-gold-light"
                 : "cursor-not-allowed border border-bord bg-noir text-gris-fonce"
