@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Boxing Therapie Premium — design tokens
+   Note: the original mockup names its accent "rouge" (red) but the
+   actual brand accent is gold (#d4af37). Tokens preserve exact hex.
+   ============================================================ */
+@theme inline {
+  --color-noir: #000000;
+  --color-carte: #000000;
+  --color-bord: #3a2f12;
+  --color-gold: #d4af37;
+  --color-gold-light: #f0c24b;
+  --color-rouge: #e23029;
+  --color-blanc: #f4f4f5;
+  --color-gris: #b8b8c0;
+  --color-gris-fonce: #86868e;
+
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-manrope);
+}
+
+:root {
+  color-scheme: dark only;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #000;
+}
+
+body {
+  background: #000;
+  color: #f4f4f5;
+  font-family: var(--font-inter), "Helvetica Neue", Arial, sans-serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer utilities {
+  /* Page background — subtle radial gold glow on black */
+  .bg-mesh {
+    background-color: #000000;
+    background-image:
+      radial-gradient(60% 60% at 50% 0%, rgba(212, 175, 55, 0.06) 0%, rgba(0, 0, 0, 0) 70%),
+      radial-gradient(50% 50% at 100% 100%, rgba(212, 175, 55, 0.04) 0%, rgba(0, 0, 0, 0) 70%);
+  }
+
+  /* Frosted dark panel */
+  .glass {
+    background: rgba(10, 10, 12, 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .font-display {
+    font-family: var(--font-manrope), "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .font-inter {
+    font-family: var(--font-inter), Arial, sans-serif;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 24px rgba(212, 175, 55, 0.35);
+  }
+
+  .shadow-premium {
+    box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(212, 175, 55, 0.06);
+  }
+
+  /* Skeleton shimmer */
+  .animate-shimmer-sweep {
+    position: relative;
+    overflow: hidden;
+  }
+  .animate-shimmer-sweep::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(212, 175, 55, 0.08) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    animation: shimmer-sweep 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes shimmer-sweep {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Native form controls inherit the dark theme */
+input,
+button,
+textarea,
+select {
+  font-family: inherit;
+}
