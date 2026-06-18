@@ -7,15 +7,9 @@ import Eyebrow from "../ui/Eyebrow";
 import Button from "../ui/Button";
 import { useNavigation } from "../context/NavigationContext";
 
-const STATS = [
-  { num: "10 ans", lab: "D'expérience" },
-  { num: "250+", lab: "Membres en cours collectif" },
-  { num: "300+", lab: "Élèves formés en privé" },
-  { num: "400 m²", lab: "Salle d'entraînement" },
-];
-
 const Hero = () => {
-  const { navigate } = useNavigation();
+  const { navigate, t } = useNavigation();
+  const tr = t.hero;
 
   return (
     <section id="home" className="px-4 md:px-7">
@@ -26,7 +20,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <Eyebrow>Accompagnement 100% individuel</Eyebrow>
+          <Eyebrow>{tr.eyebrow}</Eyebrow>
         </motion.div>
 
         <motion.h1
@@ -35,8 +29,8 @@ const Hero = () => {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="font-display mt-7 text-[clamp(42px,12vw,108px)] font-extrabold leading-[0.92] tracking-[-0.02em] text-white"
         >
-          La boxe.
-          <span className="block">Votre thérapie.</span>
+          {tr.titleA}
+          <span className="block">{tr.titleB}</span>
         </motion.h1>
 
         <motion.div
@@ -53,8 +47,7 @@ const Hero = () => {
           transition={{ duration: 0.6, delay: 0.35 }}
           className="max-w-[520px] text-[clamp(18px,3vw,22px)] leading-[1.5] text-gris"
         >
-          Une méthode claire et progressive, sans jugement. Un coach, un élève :
-          vous.
+          {tr.subtitle}
         </motion.p>
 
         <motion.div
@@ -68,21 +61,21 @@ const Hero = () => {
             onClick={() => navigate("agenda")}
             className="w-full justify-center sm:w-auto"
           >
-            Réserver une séance <ArrowRight className="h-[18px] w-[18px]" />
+            {tr.ctaBook} <ArrowRight className="h-[18px] w-[18px]" />
           </Button>
           <Button
             variant="ghost"
             onClick={() => navigate("about")}
             className="w-full justify-center sm:w-auto"
           >
-            <Play className="h-[16px] w-[16px] fill-current" /> Découvrir le Premium
+            <Play className="h-[16px] w-[16px] fill-current" /> {tr.ctaDiscover}
           </Button>
         </motion.div>
       </div>
 
       {/* STATS */}
       <div className="mx-auto grid max-w-[1080px] grid-cols-2 gap-[14px] pb-20 pt-[30px] md:grid-cols-4">
-        {STATS.map((stat, index) => (
+        {tr.stats.map((stat, index) => (
           <motion.div
             key={stat.lab}
             initial={{ opacity: 0, y: 30 }}

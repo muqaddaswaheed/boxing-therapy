@@ -1,10 +1,18 @@
 "use client";
 
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
+import { TRANSLATIONS } from "../i18n/translations";
+import { localeOf } from "../lib/calendar";
 
 /**
- * Tab-based navigation for the single-page site. Mirrors the original
- * `show(id)` / `choosePack(name, amount)` / `setLang(l)` helpers.
+ * Tab navigation + language. Mirrors the original show()/choosePack()/setLang()
+ * helpers and adds a functional FR/EN/DE i18n layer.
  */
 const NavigationContext = createContext(null);
 
@@ -19,10 +27,54 @@ export const PAGES = [
   "reglement",
 ];
 
+const LANG_KEY = "bt_lang";
+const DEFAULT_LANG = "fr";
+
+/** Pick the best supported language from the browser's preferences. */
+function detectBrowserLang() {
+  if (typeof navigator === "undefined") return DEFAULT_LANG;
+  const prefs = navigator.languages?.length
+    ? navigator.languages
+    : [navigator.language || ""];
+  for (const pref of prefs) {
+    const code = pref.toLowerCase().split("-")[0]; // "en-US" -> "en"
+    if (TRANSLATIONS[code]) return code;
+  }
+  return DEFAULT_LANG;
+}
+
 export function NavigationProvider({ children }) {
   const [activePage, setActivePage] = useState("home");
-  const [lang, setLang] = useState("fr");
+  const [lang, setLangState] = useState("fr");
   const [payInfo, setPayInfo] = useState({ pack: "—", amount: "—" });
+
+  // On mount: a previously saved choice wins; otherwise auto-detect from
+  // the browser's preferred languages (falling back to French).
+  useEffect(() => {
+    let saved = null;
+    try {
+      saved = localStorage.getItem(LANG_KEY);
+    } catch (e) {
+      /* ignore */
+    }
+    if (saved && TRANSLATIONS[saved]) setLangState(saved);
+    else setLangState(detectBrowserLang());
+  }, []);
+
+  // Keep <html lang> in sync for accessibility / SEO.
+  useEffect(() => {
+    if (typeof document !== "undefined") document.documentElement.lang = lang;
+  }, [lang]);
+
+  const setLang = useCallback((l) => {
+    if (!TRANSLATIONS[l]) return;
+    setLangState(l);
+    try {
+      localStorage.setItem(LANG_KEY, l);
+    } catch (e) {
+      /* ignore */
+    }
+  }, []);
 
   const navigate = useCallback((id) => {
     setActivePage(id);
@@ -39,11 +91,15 @@ export function NavigationProvider({ children }) {
     [navigate]
   );
 
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.fr;
+
   const value = {
     activePage,
     navigate,
     lang,
     setLang,
+    locale: localeOf(lang),
+    t,
     payInfo,
     choosePack,
   };

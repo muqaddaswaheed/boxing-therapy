@@ -6,14 +6,7 @@ import { Menu, X } from "lucide-react";
 import BrandLogo from "../../ui/BrandLogo";
 import { useNavigation } from "../../context/NavigationContext";
 
-const NAV_LINKS = [
-  { id: "about", label: "À propos" },
-  { id: "coach", label: "Coach" },
-  { id: "promo", label: "Promotion" },
-  { id: "contact", label: "Contact" },
-  { id: "agenda", label: "Agenda" },
-  { id: "reglement", label: "Règlement" },
-];
+const NAV_IDS = ["about", "coach", "promo", "contact", "agenda", "reglement"];
 
 const LANGS = ["fr", "en", "de"];
 
@@ -31,8 +24,10 @@ const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
 const lerp = (a, b, t) => a + (b - a) * t;
 
 const Navbar = () => {
-  const { activePage, navigate, lang, setLang } = useNavigation();
+  const { activePage, navigate, lang, setLang, t } = useNavigation();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinks = NAV_IDS.map((id) => ({ id, label: t.nav[id] }));
 
   // 0 = expanded (top), 1 = collapsed (docked top-left)
   const [p, setP] = useState(0);
@@ -138,7 +133,7 @@ const Navbar = () => {
             maxWidth: "calc(100vw - 180px)",
           }}
         >
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <button
               key={link.id}
               onClick={() => go(link.id)}
@@ -187,7 +182,7 @@ const Navbar = () => {
             className="overflow-hidden border-t border-bord lg:hidden"
           >
             <div className="flex flex-col px-4 py-2">
-              {NAV_LINKS.map((link) => (
+              {navLinks.map((link) => (
                 <button
                   key={link.id}
                   onClick={() => go(link.id)}

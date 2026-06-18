@@ -5,28 +5,15 @@ import { motion } from "framer-motion";
 import { CircleCheck, User, TrendingUp, ArrowRight } from "lucide-react";
 import Eyebrow from "../ui/Eyebrow";
 import Button from "../ui/Button";
+import RichText from "../ui/RichText";
 import { useNavigation } from "../context/NavigationContext";
 
-const FEATURES = [
-  {
-    icon: CircleCheck,
-    title: "Sans jugement",
-    text: "Pas de regard des autres, pas de pression. Vous progressez dans un cadre rassurant.",
-  },
-  {
-    icon: User,
-    title: "100% sur vous",
-    text: "Le coach n'a qu'un seul élève : vous. Toute son attention sur chaque détail.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Plein potentiel",
-    text: "Un programme adapté à votre niveau et vos objectifs, pour aller plus loin.",
-  },
-];
+const FEATURE_ICONS = [CircleCheck, User, TrendingUp];
 
 const Premium = () => {
-  const { navigate } = useNavigation();
+  const { navigate, t } = useNavigation();
+  const tr = t.premium;
+  const features = tr.features.map((f, i) => ({ ...f, icon: FEATURE_ICONS[i] }));
 
   return (
     <section id="about" className="px-4 py-16 md:px-7 md:py-24">
@@ -37,11 +24,11 @@ const Premium = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <Eyebrow>Le Premium</Eyebrow>
+          <Eyebrow>{tr.eyebrow}</Eyebrow>
           <h2 className="font-display mt-[18px] text-[clamp(34px,6vw,58px)] font-extrabold leading-none tracking-[-0.01em] text-white">
-            Votre boxe. Votre rythme.
+            {tr.titleA}
             <br />
-            <span>Rien que pour vous.</span>
+            <span>{tr.titleB}</span>
           </h2>
         </motion.div>
 
@@ -53,24 +40,15 @@ const Premium = () => {
           className="mt-5 max-w-[760px] space-y-5"
         >
           <p className="text-[18px] leading-[1.8] text-blanc">
-            Beaucoup de personnes rêvent de boxer… mais n'osent pas franchir la
-            porte d'une salle. La peur du{" "}
-            <strong className="text-white">regard des autres</strong>, l'anxiété,
-            le sentiment de ne pas être à la hauteur. En cours collectif, le coach
-            partage son attention entre des dizaines d'élèves : difficile de
-            prendre le temps pour chacun.
+            <RichText text={tr.para1} />
           </p>
           <p className="text-[18px] leading-[1.8] text-gris">
-            C'est exactement pour cela qu'est né le cours{" "}
-            <strong className="text-white">Premium</strong>. Un espace où vous êtes
-            seul face au coach, où chaque séance est pensée pour vous : corriger
-            vos lacunes, progresser à votre rythme et révéler votre plein
-            potentiel.
+            <RichText text={tr.para2} />
           </p>
         </motion.div>
 
         <div className="mt-[46px] grid grid-cols-1 gap-[18px] md:grid-cols-3">
-          {FEATURES.map((feature, index) => (
+          {features.map((feature, index) => (
             <motion.div
               key={feature.title}
               initial={{ opacity: 0, y: 30 }}
@@ -99,15 +77,13 @@ const Premium = () => {
           className="mt-[54px] rounded-[14px] border border-bord bg-carte p-10 text-center"
         >
           <p className="text-[clamp(20px,3vw,26px)] font-bold uppercase leading-[1.45] text-white">
-            Vous serez coaché par un professeur{" "}
-            <span className="text-rouge">passionné et patient</span>, qui avance{" "}
-            <span className="text-rouge">à votre rythme, sans pression</span>.
+            <RichText text={tr.quote} strongClassName="text-rouge" />
           </p>
         </motion.div>
 
         <div className="mt-10 text-center">
           <Button variant="red" onClick={() => navigate("agenda")}>
-            Réserver ma séance <ArrowRight className="h-[18px] w-[18px]" />
+            {tr.cta} <ArrowRight className="h-[18px] w-[18px]" />
           </Button>
         </div>
       </div>

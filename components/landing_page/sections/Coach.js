@@ -4,37 +4,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import { User } from "lucide-react";
 import Eyebrow from "../ui/Eyebrow";
-
-const BIO = [
-  {
-    lead: true,
-    text: "La boxe a commencé comme un moyen de me défendre. Elle est devenue ma thérapie, puis ma vocation.",
-  },
-  {
-    text: "Je pratique la boxe depuis l'âge de 12 ans. Au départ, je voulais simplement apprendre à me défendre face aux moqueries et aux humiliations. Mais dès ma première salle, j'ai ressenti autre chose : un apaisement profond. La boxe n'était plus un sport, c'était un équilibre.",
-  },
-  {
-    text: "Pendant le Covid, j'ai continué à m'entraîner avec discipline et à partager ma passion sur les réseaux. Des amis sont venus, puis des amis d'amis. Sans salle, sans douche, dehors, par tous les temps. En quelques mois, nous sommes passés de 5 à 50 élèves.",
-  },
-  {
-    text: "Porté par ma famille, mes amis et mes proches, j'ai ouvert une première salle de 140 m². Six mois plus tard, le club comptait déjà 150 membres. Aujourd'hui, c'est une salle de 400 m² qui accueille plus de 300 passionnés.",
-  },
-  {
-    text: "Au fil des années, j'ai enseigné la boxe à de nombreuses personnes — et certaines ont à leur tour ouvert leurs propres salles de boxe. C'est ma plus grande fierté. À ce jour, j'ai accompagné plus de 300 personnes en cours privé.",
-  },
-  {
-    text: "J'enseigne avec patience et passion : ce sont mes deux moteurs. Et je n'arrête jamais d'apprendre. À travers mes voyages, j'enseigne la boxe mais j'apprends aussi des autres coachs, pour offrir à mes élèves la meilleure qualité d'entraînement possible.",
-  },
-];
-
-const COACH_STATS = [
-  { num: "10 ans", lab: "D'expérience" },
-  { num: "250+", lab: "Membres en cours collectif" },
-  { num: "300+", lab: "Élèves formés en privé" },
-  { num: "400 m²", lab: "Salle d'entraînement" },
-];
+import { useNavigation } from "../context/NavigationContext";
 
 const Coach = () => {
+  const { t } = useNavigation();
+  const tr = t.coach;
   return (
     <section id="coach" className="px-4 py-16 md:px-7 md:py-24">
       <div className="mx-auto max-w-[1080px]">
@@ -44,9 +18,9 @@ const Coach = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <Eyebrow>Le Professeur</Eyebrow>
+          <Eyebrow>{tr.eyebrow}</Eyebrow>
           <h2 className="font-display mt-[18px] text-[clamp(34px,6vw,58px)] font-extrabold leading-none tracking-[-0.01em] text-white">
-            Evariste
+            {tr.name}
           </h2>
         </motion.div>
 
@@ -62,17 +36,17 @@ const Coach = () => {
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-gris-fonce">
               <User className="h-12 w-12" strokeWidth={1.5} />
               <span className="text-[12px] font-semibold uppercase tracking-[0.22em]">
-                Ta photo ici
+                {tr.photoPlaceholder}
               </span>
             </div>
             <span className="absolute bottom-4 left-4 rounded-[8px] bg-gold px-[14px] py-2 text-[12px] font-extrabold uppercase tracking-[0.08em] text-white">
-              Evariste
+              {tr.name}
             </span>
           </motion.div>
 
           {/* Bio */}
           <div className="space-y-[18px]">
-            {BIO.map((para, index) => (
+            {tr.bio.map((para, index) => (
               <motion.p
                 key={index}
                 initial={{ opacity: 0, y: 16 }}
@@ -80,12 +54,12 @@ const Coach = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.3) }}
                 className={
-                  para.lead
+                  index === 0
                     ? "text-[20px] font-semibold leading-[1.55] text-blanc"
                     : "text-[16px] leading-[1.85] text-gris"
                 }
               >
-                {para.text}
+                {para}
               </motion.p>
             ))}
           </div>
@@ -93,7 +67,7 @@ const Coach = () => {
 
         {/* Coach stats */}
         <div className="mt-11 grid grid-cols-2 gap-[14px] md:grid-cols-4">
-          {COACH_STATS.map((stat, index) => (
+          {tr.stats.map((stat, index) => (
             <motion.div
               key={stat.lab}
               initial={{ opacity: 0, y: 24 }}

@@ -4,52 +4,20 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 import Eyebrow from "../ui/Eyebrow";
+import RichText from "../ui/RichText";
 import { useNavigation } from "../context/NavigationContext";
 
-const PACKS = [
-  {
-    title: "Cours à l'unité",
-    subtitle: "Pour essayer ou venir ponctuellement",
-    old: null,
-    cur: "CHF",
-    price: "120",
-    per: "1 cours · 1 heure",
-    save: null,
-    cta: "Réserver",
-    popular: false,
-    pack: "1 cours",
-    amount: "120 CHF",
-  },
-  {
-    title: "Pack 5 cours",
-    subtitle: "Pour progresser régulièrement",
-    old: "600 CHF",
-    cur: "CHF",
-    price: "500",
-    per: "soit 100 CHF / cours",
-    save: "Économisez 100 CHF",
-    cta: "Choisir ce pack",
-    popular: false,
-    pack: "Pack 5 cours",
-    amount: "500 CHF",
-  },
-  {
-    title: "Pack 10 cours",
-    subtitle: "Pour un vrai suivi sur la durée",
-    old: "1 200 CHF",
-    cur: "CHF",
-    price: "950",
-    per: "soit 95 CHF / cours",
-    save: "Économisez 250 CHF",
-    cta: "Choisir ce pack",
-    popular: true,
-    pack: "Pack 10 cours",
-    amount: "950 CHF",
-  },
+// Price/currency data is language-neutral; text comes from translations by index.
+const PACK_META = [
+  { old: null, cur: "CHF", price: "120", popular: false, amount: "120 CHF" },
+  { old: "600 CHF", cur: "CHF", price: "500", popular: false, amount: "500 CHF" },
+  { old: "1 200 CHF", cur: "CHF", price: "950", popular: true, amount: "950 CHF" },
 ];
 
 const Tarifs = () => {
-  const { choosePack } = useNavigation();
+  const { choosePack, t } = useNavigation();
+  const tr = t.tarifs;
+  const packs = PACK_META.map((meta, i) => ({ ...meta, ...tr.packs[i] }));
 
   return (
     <section id="promo" className="px-4 py-16 md:px-7 md:py-24">
@@ -61,18 +29,18 @@ const Tarifs = () => {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-          <Eyebrow>Tarifs</Eyebrow>
+          <Eyebrow>{tr.eyebrow}</Eyebrow>
           <h2 className="font-display mt-[18px] text-[clamp(34px,6vw,58px)] font-extrabold leading-none tracking-[-0.01em] text-white">
-            Nos <span className="text-gold">formules</span>
+            {tr.titleA}
+            <span className="text-gold">{tr.titleB}</span>
           </h2>
           <p className="mx-auto mt-[22px] max-w-[680px] text-[18px] leading-[1.7] text-gris">
-            Plus vous vous engagez, plus vous économisez. Chaque cours, c'est 1h
-            d'accompagnement individuel.
+            {tr.lead}
           </p>
         </motion.div>
 
         <div className="mt-[46px] grid grid-cols-1 items-stretch gap-[18px] md:grid-cols-3">
-          {PACKS.map((pack, index) => (
+          {packs.map((pack, index) => (
             <motion.div
               key={pack.title}
               initial={{ opacity: 0, y: 30 }}
@@ -86,7 +54,7 @@ const Tarifs = () => {
             >
               {pack.popular && (
                 <span className="absolute -top-[13px] left-1/2 flex -translate-x-1/2 items-center gap-1 whitespace-nowrap rounded-[30px] bg-gold px-4 py-[7px] text-[11px] font-extrabold uppercase tracking-[0.1em] text-[#0b0b0d]">
-                  <Star className="h-3 w-3 fill-current" /> Le plus avantageux
+                  <Star className="h-3 w-3 fill-current" /> {pack.ribbon}
                 </span>
               )}
 
@@ -120,7 +88,7 @@ const Tarifs = () => {
                 <motion.button
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => choosePack(pack.pack, pack.amount)}
+                  onClick={() => choosePack(pack.title, pack.amount)}
                   className={`w-full cursor-pointer rounded-[10px] border px-4 py-[15px] text-[14px] font-bold transition-colors duration-200 hover:border-gold ${
                     pack.popular
                       ? "border-gold bg-gold text-[#0b0b0d]"
@@ -146,17 +114,12 @@ const Tarifs = () => {
             −10%
           </div>
           <div className="max-w-[500px] text-[16px] leading-[1.6] text-gris">
-            Réduction <b className="text-blanc">étudiants</b> et{" "}
-            <b className="text-blanc">moins de 18 ans</b> sur tous les cours et
-            packs. Sur présentation d'un justificatif.
+            <RichText text={tr.studentText} strongClassName="text-blanc" />
           </div>
         </motion.div>
 
         <p className="mt-6 text-center text-[13px] leading-[1.7] text-gris-fonce">
-          Prix en francs suisses (CHF). Paiement par virement (IBAN) ou espèces à
-          la salle.
-          <br />
-          Toute séance doit être annulée au moins 24h à l'avance.
+          {tr.note}
         </p>
       </div>
     </section>

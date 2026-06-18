@@ -5,37 +5,27 @@ import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle } from "lucide-react";
 import Eyebrow from "../ui/Eyebrow";
 import Button from "../ui/Button";
+import RichText from "../ui/RichText";
 import { useNavigation } from "../context/NavigationContext";
 
-const PAYMENT_METHODS = [
-  {
-    title: "Virement bancaire",
-    badge: "IBAN",
-    description:
-      "Effectuez le virement sur le compte ci-dessous (indiquez votre nom + la formule en communication) :",
-    iban: "CH00 0000 0000 0000 0000 0",
-    highlight: true,
-  },
-  {
-    title: "Espèces à la salle",
-    badge: null,
-    description:
-      "Vous pouvez aussi régler en cash directement à la salle, avec le coach : Rue Saint-Pierre 6B, 1700 Fribourg.",
-    iban: null,
-    highlight: false,
-  },
+const METHOD_META = [
+  { iban: "CH00 0000 0000 0000 0000 0", highlight: true },
+  { iban: null, highlight: false },
 ];
 
 const Payment = () => {
-  const { navigate, payInfo } = useNavigation();
+  const { navigate, payInfo, t } = useNavigation();
+  const tr = t.payment;
+  const methods = METHOD_META.map((meta, i) => ({ ...meta, ...tr.methods[i] }));
 
   return (
     <section id="pay" className="px-4 py-16 md:px-7 md:py-24">
       <div className="mx-auto max-w-[640px]">
         <div className="text-center">
-          <Eyebrow>Paiement</Eyebrow>
+          <Eyebrow>{tr.eyebrow}</Eyebrow>
           <h2 className="font-display mt-[18px] text-[clamp(34px,6vw,58px)] font-extrabold leading-none text-white">
-            Votre <span className="text-gold">commande</span>
+            {tr.titleA}
+            <span className="text-gold">{tr.titleB}</span>
           </h2>
         </div>
 
@@ -48,7 +38,7 @@ const Payment = () => {
         >
           <div>
             <div className="text-[11px] uppercase tracking-[0.16em] text-gris">
-              Formule choisie
+              {tr.pack}
             </div>
             <div className="mt-[6px] text-[20px] font-extrabold text-white">
               {payInfo.pack}
@@ -56,7 +46,7 @@ const Payment = () => {
           </div>
           <div className="text-right">
             <div className="text-[11px] uppercase tracking-[0.16em] text-gris">
-              Montant
+              {tr.amount}
             </div>
             <div className="mt-[6px] text-[20px] font-extrabold text-gold">
               {payInfo.amount}
@@ -65,14 +55,10 @@ const Payment = () => {
         </motion.div>
 
         <p className="my-[22px] text-center text-[15px] leading-[1.7] text-gris">
-          Réglez votre commande par l'un des moyens ci-dessous. Dès que votre
-          paiement est confirmé, vous recevez un{" "}
-          <b className="text-white">email de confirmation de votre pack</b> — vous
-          pouvez ensuite réserver vos séances une par une, quand vous le
-          souhaitez.
+          <RichText text={tr.intro} />
         </p>
 
-        {PAYMENT_METHODS.map((method, index) => (
+        {methods.map((method, index) => (
           <motion.div
             key={method.title}
             initial={{ opacity: 0, y: 16 }}
@@ -105,9 +91,7 @@ const Payment = () => {
         <div className="mt-4 flex gap-[10px] rounded-[12px] border border-gold bg-gold/10 px-4 py-[14px] text-[13px] leading-[1.6] text-[#e8a8a4]">
           <CheckCircle className="h-5 w-5 flex-none text-rouge" strokeWidth={2} />
           <div>
-            <b className="text-blanc">Après réception de votre paiement</b>, vous
-            recevrez un email de confirmation avec votre crédit de séances. Vous
-            pourrez alors réserver vos dates ci-dessous.
+            <RichText text={tr.notice} strongClassName="text-blanc" />
           </div>
         </div>
 
@@ -117,7 +101,7 @@ const Payment = () => {
             onClick={() => navigate("agenda")}
             className="w-full justify-center"
           >
-            Réserver mes séances <ArrowRight className="h-[18px] w-[18px]" />
+            {tr.ctaBook} <ArrowRight className="h-[18px] w-[18px]" />
           </Button>
         </div>
         <div className="mt-[14px] text-center">
@@ -125,7 +109,7 @@ const Payment = () => {
             onClick={() => navigate("promo")}
             className="cursor-pointer text-[13px] text-gris underline"
           >
-            Retour aux tarifs
+            {tr.back}
           </button>
         </div>
       </div>

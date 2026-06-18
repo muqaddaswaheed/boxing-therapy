@@ -7,41 +7,30 @@ import Eyebrow from "../ui/Eyebrow";
 import Button from "../ui/Button";
 import { useNavigation } from "../context/NavigationContext";
 
-const CONTACT_CARDS = [
-  {
-    icon: MapPin,
-    title: "Adresse",
-    lines: ["Rue Saint-Pierre 6B", "1700 Fribourg", "Suisse"],
-  },
-  {
-    icon: Phone,
-    title: "Téléphone",
-    lines: ["078 320 05 83"],
-    href: "tel:+41783200583",
-  },
-  {
-    icon: Mail,
-    title: "Email",
-    lines: ["boxingtherapiepremium@gmail.com"],
-    href: "mailto:boxingtherapiepremium@gmail.com",
-  },
+const CARD_META = [
+  { icon: MapPin },
+  { icon: Phone, href: "tel:+41783200583" },
+  { icon: Mail, href: "mailto:boxingtherapiepremium@gmail.com" },
 ];
 
 const Contact = () => {
-  const { navigate } = useNavigation();
+  const { navigate, t } = useNavigation();
+  const tr = t.contact;
+  const cards = CARD_META.map((meta, i) => ({ ...meta, ...tr.cards[i] }));
 
   return (
     <section id="contact" className="px-4 py-16 md:px-7 md:py-24">
       <div className="mx-auto max-w-[1080px]">
         <div className="text-center">
-          <Eyebrow>Contact</Eyebrow>
+          <Eyebrow>{tr.eyebrow}</Eyebrow>
           <h2 className="font-display mt-[18px] text-[clamp(34px,6vw,58px)] font-extrabold leading-none text-white">
-            Nous <span className="text-gold">trouver</span>
+            {tr.titleA}
+            <span className="text-gold">{tr.titleB}</span>
           </h2>
         </div>
 
         <div className="mt-[46px] grid grid-cols-1 gap-[18px] md:grid-cols-3">
-          {CONTACT_CARDS.map((card, index) => (
+          {cards.map((card, index) => (
             <motion.div
               key={card.title}
               initial={{ opacity: 0, y: 30 }}
@@ -80,7 +69,7 @@ const Contact = () => {
 
         <div className="mt-10 text-center">
           <Button variant="red" onClick={() => navigate("agenda")}>
-            Réserver une séance <ArrowRight className="h-[18px] w-[18px]" />
+            {tr.cta} <ArrowRight className="h-[18px] w-[18px]" />
           </Button>
         </div>
       </div>

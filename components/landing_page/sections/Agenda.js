@@ -5,9 +5,8 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Eyebrow from "../ui/Eyebrow";
 import BookingModal from "../components/BookingModal";
+import { useNavigation } from "../context/NavigationContext";
 import {
-  MOIS,
-  DOWS,
   ABS_KEY,
   ADMIN_CODE,
   heuresDispo,
@@ -15,6 +14,9 @@ import {
   dayBlocked,
   hourBlocked,
   fmtDate,
+  fmtHour,
+  monthLabel,
+  weekdayShorts,
   validEmail,
 } from "../lib/calendar";
 
@@ -28,6 +30,9 @@ const Step = ({ n, children }) => (
 );
 
 const Agenda = () => {
+  const { t, lang } = useNavigation();
+  const tr = t.agenda;
+
   const [mounted, setMounted] = useState(false);
   const [today, setToday] = useState(null);
   const [viewY, setViewY] = useState(0);
@@ -98,9 +103,9 @@ const Agenda = () => {
 
   const toggleAdmin = () => {
     if (!adminMode) {
-      const code = window.prompt("Code coach :");
+      const code = window.prompt(tr.promptCode);
       if (code !== ADMIN_CODE) {
-        if (code !== null) window.alert("Code incorrect.");
+        if (code !== null) window.alert(tr.wrongCode);
         return;
       }
       setAdminMode(true);
@@ -118,7 +123,7 @@ const Agenda = () => {
 
   const blockDay = () => {
     if (!selDate) {
-      window.alert("Sélectionnez d'abord une date.");
+      window.alert(tr.pickDateFirst);
       return;
     }
     persistAbsences({ ...absences, [keyOf(selDate)]: "all" });
@@ -126,7 +131,7 @@ const Agenda = () => {
 
   const unblockDay = () => {
     if (!selDate) {
-      window.alert("Sélectionnez d'abord une date.");
+      window.alert(tr.pickDateFirst);
       return;
     }
     const next = { ...absences };
@@ -156,17 +161,13 @@ const Agenda = () => {
     const tel = form.phone.trim();
     const mail = form.email.trim();
     if (!nom || !tel || !mail || !validEmail(mail)) {
-      setFormErr(
-        !nom || !tel || !mail
-          ? "Merci de remplir votre nom, téléphone et email."
-          : "Merci d'entrer une adresse email valide."
-      );
+      setFormErr(!nom || !tel || !mail ? tr.errMissing : tr.errEmail);
       return;
     }
     setFormErr("");
     setModal({
       open: true,
-      when: `${fmtDate(selDate)} à ${selHour}h00`,
+      when: `${fmtDate(selDate, lang)} ${tr.at} ${fmtHour(selHour, lang)}`,
       name: nom,
       email: mail,
     });
@@ -174,10 +175,10 @@ const Agenda = () => {
 
   const canConfirm = selDate && selHour !== null;
   const recapText = canConfirm
-    ? `${fmtDate(selDate)} à ${selHour}h00`
+    ? `${fmtDate(selDate, lang)} ${tr.at} ${fmtHour(selHour, lang)}`
     : selDate
-    ? "Choisissez une heure"
-    : "Rien de sélectionné";
+    ? tr.recapChooseHour
+    : tr.recapEmpty;
 
   // ---- Calendar grid model ----
   const buildCalendar = () => {
@@ -206,29 +207,29 @@ const Agenda = () => {
     <section id="agenda" className="px-4 py-16 md:px-7 md:py-24">
       <div className="mx-auto max-w-[640px]">
         <div className="text-center">
-          <Eyebrow>Agenda</Eyebrow>
+          <Eyebrow>{tr.eyebrow}</Eyebrow>
         </div>
         <h2 className="font-display mt-[18px] text-center text-[clamp(34px,6vw,58px)] font-extrabold leading-none text-white">
-          Réservez votre séance
+          {tr.title}
         </h2>
 
         {/* Step 1 — date */}
-        <Step n={1}>Choisissez la date</Step>
+        <Step n={1}>{tr.step1}</Step>
         <div className="rounded-[16px] border border-bord bg-carte p-[18px]">
           <div className="mb-[14px] flex items-center justify-between">
             <button
               onClick={prevMonth}
-              aria-label="Mois précédent"
+              aria-label="←"
               className="flex h-10 w-10 items-center justify-center rounded-[10px] border border-bord bg-noir text-gold transition-colors hover:border-gold"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
             <div className="text-[17px] font-extrabold capitalize">
-              {mounted ? `${MOIS[viewM]} ${viewY}` : ""}
+              {mounted ? monthLabel(viewY, viewM, lang) : ""}
             </div>
             <button
               onClick={nextMonth}
-              aria-label="Mois suivant"
+              aria-label="→"
               className="flex h-10 w-10 items-center justify-center rounded-[10px] border border-bord bg-noir text-gold transition-colors hover:border-gold"
             >
               <ChevronRight className="h-5 w-5" />
@@ -236,9 +237,9 @@ const Agenda = () => {
           </div>
 
           <div className="grid grid-cols-7 gap-[5px]">
-            {DOWS.map((d) => (
+            {weekdayShorts(lang).map((d, i) => (
               <div
-                key={d}
+                key={i}
                 className="py-[6px] text-center text-[11px] font-bold uppercase text-gris-fonce"
               >
                 {d}
@@ -270,11 +271,11 @@ const Agenda = () => {
         </div>
 
         {/* Step 2 — hour */}
-        <Step n={2}>Choisissez l'heure</Step>
+        <Step n={2}>{tr.step2}</Step>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(80px,1fr))] gap-[10px]">
           {!selDate ? (
             <div className="col-span-full py-[18px] text-center text-[15px] text-gris-fonce">
-              Sélectionnez d'abord une date.
+              {tr.selectDateFirst}
             </div>
           ) : (
             slotHours.map((h) => {
@@ -295,7 +296,7 @@ const Agenda = () => {
                       : "border-bord bg-noir text-blanc hover:border-gold"
                   }`}
                 >
-                  {h}h00
+                  {fmtHour(h, lang)}
                 </button>
               );
             })
@@ -303,12 +304,12 @@ const Agenda = () => {
         </div>
 
         {/* Step 3 — details */}
-        <Step n={3}>Vos coordonnées</Step>
+        <Step n={3}>{tr.step3}</Step>
         <div className="flex flex-col gap-4 rounded-[16px] border border-bord bg-carte p-[22px]">
           {[
-            { key: "name", label: "Nom complet", type: "text", placeholder: "Prénom et nom", autoComplete: "name" },
-            { key: "phone", label: "Numéro de téléphone", type: "tel", placeholder: "+41 79 000 00 00", autoComplete: "tel" },
-            { key: "email", label: "Adresse email", type: "email", placeholder: "votre@email.com", autoComplete: "email" },
+            { key: "name", label: tr.fields.name, type: "text", placeholder: tr.fields.namePh, autoComplete: "name" },
+            { key: "phone", label: tr.fields.phone, type: "tel", placeholder: tr.fields.phonePh, autoComplete: "tel" },
+            { key: "email", label: tr.fields.email, type: "email", placeholder: tr.fields.emailPh, autoComplete: "email" },
           ].map((field) => (
             <label
               key={field.key}
@@ -338,7 +339,7 @@ const Agenda = () => {
         <div className="mt-6 flex flex-wrap items-center justify-between gap-4 rounded-[16px] border border-bord bg-carte px-6 py-[22px]">
           <div>
             <div className="text-[11px] uppercase tracking-[0.18em] text-gris-fonce">
-              Votre sélection
+              {tr.recapLabel}
             </div>
             <div
               className={`mt-1 ${
@@ -359,7 +360,7 @@ const Agenda = () => {
                 : "cursor-not-allowed border border-bord bg-noir text-gris-fonce"
             }`}
           >
-            Confirmer
+            {tr.confirm}
           </button>
         </div>
 
@@ -369,7 +370,7 @@ const Agenda = () => {
             onClick={toggleAdmin}
             className="cursor-pointer rounded-[8px] border border-bord px-[18px] py-[10px] text-[12px] font-semibold uppercase tracking-[0.14em] text-gris-fonce transition-colors hover:border-gold hover:text-gold"
           >
-            {adminMode ? "Espace coach (activé)" : "Espace coach"}
+            {adminMode ? tr.adminToggleActive : tr.adminToggle}
           </button>
         </div>
 
@@ -380,12 +381,10 @@ const Agenda = () => {
             className="mt-[18px] rounded-[16px] border border-gold bg-carte p-6"
           >
             <div className="mb-[10px] text-[14px] font-extrabold uppercase tracking-[0.06em] text-gold">
-              Espace coach — Mes absences
+              {tr.adminTitle}
             </div>
             <p className="mb-[18px] text-[13px] leading-[1.6] text-gris">
-              Sélectionnez une date dans le calendrier, puis bloquez la journée
-              entière ou des heures précises. Les créneaux bloqués ne sont plus
-              réservables.
+              {tr.adminHelp}
             </p>
             <div className="mb-[18px] flex flex-wrap gap-[10px]">
               <button
@@ -393,23 +392,21 @@ const Agenda = () => {
                 className="flex-1 cursor-pointer rounded-[10px] border border-gold bg-gold px-3 py-[13px] text-[13px] font-bold uppercase tracking-[0.04em] text-[#0b0b0d]"
                 style={{ flexBasis: 150 }}
               >
-                Bloquer la journée
+                {tr.blockDay}
               </button>
               <button
                 onClick={unblockDay}
                 className="flex-1 cursor-pointer rounded-[10px] border border-gold bg-transparent px-3 py-[13px] text-[13px] font-bold uppercase tracking-[0.04em] text-gold"
                 style={{ flexBasis: 150 }}
               >
-                Débloquer
+                {tr.unblockDay}
               </button>
             </div>
-            <div className="mb-3 text-[13px] font-bold">
-              Ou bloquez des heures précises :
-            </div>
+            <div className="mb-3 text-[13px] font-bold">{tr.blockHoursLabel}</div>
             <div className="mb-[18px] grid grid-cols-[repeat(auto-fill,minmax(72px,1fr))] gap-2">
               {!selDate ? (
                 <div className="col-span-full py-[18px] text-center text-[15px] text-gris-fonce">
-                  Sélectionnez d'abord une date.
+                  {tr.selectDateFirst}
                 </div>
               ) : (
                 heuresDispo(selDate.getDay()).map((h) => {
@@ -424,7 +421,7 @@ const Agenda = () => {
                           : "border-bord bg-noir text-blanc"
                       }`}
                     >
-                      {h}h
+                      {fmtHour(h, lang)}
                     </button>
                   );
                 })
@@ -434,7 +431,7 @@ const Agenda = () => {
               onClick={closeAdmin}
               className="w-full cursor-pointer rounded-[10px] border border-bord bg-noir px-4 py-[13px] text-[13px] font-bold uppercase tracking-[0.08em] text-gris"
             >
-              Fermer l'espace coach
+              {tr.adminClose}
             </button>
           </motion.div>
         )}

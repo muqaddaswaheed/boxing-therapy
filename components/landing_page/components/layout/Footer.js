@@ -6,27 +6,19 @@ import { MapPin, Phone, Mail } from "lucide-react";
 import BrandLogo from "../../ui/BrandLogo";
 import { useNavigation } from "../../context/NavigationContext";
 
-const FOOTER_LINKS = [
-  { id: "about", label: "Le Premium" },
-  { id: "coach", label: "Le Coach" },
-  { id: "agenda", label: "Agenda" },
-  { id: "promo", label: "Tarifs" },
-  { id: "contact", label: "Contact" },
-  { id: "reglement", label: "Règlement" },
-];
-
-const CONTACT_ITEMS = [
-  { icon: MapPin, lines: ["Rue Saint-Pierre 6B", "1700 Fribourg, Suisse"] },
-  { icon: Phone, lines: ["078 320 05 83"], href: "tel:+41783200583" },
-  {
-    icon: Mail,
-    lines: ["boxingtherapiepremium@gmail.com"],
-    href: "mailto:boxingtherapiepremium@gmail.com",
-  },
+const CONTACT_META = [
+  { icon: MapPin },
+  { icon: Phone, href: "tel:+41783200583" },
+  { icon: Mail, href: "mailto:boxingtherapiepremium@gmail.com" },
 ];
 
 const Footer = () => {
-  const { navigate } = useNavigation();
+  const { navigate, t } = useNavigation();
+  const links = t.footer.links;
+  const contactItems = CONTACT_META.map((meta, i) => ({
+    ...meta,
+    lines: t.footer.contactLines[i],
+  }));
 
   return (
     <footer className="border-t border-bord bg-black">
@@ -40,18 +32,17 @@ const Footer = () => {
             <BrandLogo size={120} />
           </div>
           <p className="max-w-[260px] text-[14px] leading-relaxed text-gris">
-            La boxe, votre thérapie. Un accompagnement 100% individuel, à votre
-            rythme et sans jugement.
+            {t.footer.tagline}
           </p>
         </div>
 
         {/* Navigation */}
         <div>
           <h4 className="mb-5 text-[11px] font-black uppercase tracking-[0.2em] text-gris-fonce">
-            Navigation
+            {t.footer.navTitle}
           </h4>
           <ul className="flex flex-col items-center gap-3 md:items-start">
-            {FOOTER_LINKS.map((link) => (
+            {links.map((link) => (
               <li key={link.id}>
                 <motion.button
                   whileHover={{ x: 4 }}
@@ -68,10 +59,10 @@ const Footer = () => {
         {/* Contact */}
         <div>
           <h4 className="mb-5 text-[11px] font-black uppercase tracking-[0.2em] text-gris-fonce">
-            Contact
+            {t.footer.contactTitle}
           </h4>
-          <ul className="flex flex-col gap-4">
-            {CONTACT_ITEMS.map((item, i) => {
+          <ul className="flex flex-col items-center gap-4 md:items-start">
+            {contactItems.map((item, i) => {
               const body = (
                 <span className="flex flex-col text-[14px] leading-relaxed text-gris">
                   {item.lines.map((line) => (
@@ -103,7 +94,7 @@ const Footer = () => {
 
       <div className="border-t border-bord px-7 py-6">
         <p className="mx-auto max-w-[1080px] text-center text-[12px] text-gris-fonce">
-          © {2026} Boxing Therapie Premium — Fribourg, Suisse. Tous droits réservés.
+          © {2026} Boxing Therapie Premium — {t.footer.rights}
         </p>
       </div>
     </footer>
