@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import Script from "next/script";
 import { motion, AnimatePresence } from "framer-motion";
 
 import {
@@ -56,25 +55,6 @@ const PAGE_COMPONENTS = {
   reglement: Reglement,
 };
 
-const SCHEMA = {
-  "@context": "https://schema.org",
-  "@type": "SportsActivityLocation",
-  name: "Boxing Therapie Premium",
-  description:
-    "Cours de boxe 100% individuels à Fribourg. Une méthode claire et progressive, sans jugement.",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "Rue Saint-Pierre 6B",
-    addressLocality: "Fribourg",
-    postalCode: "1700",
-    addressCountry: "CH",
-  },
-  telephone: "+41783200583",
-  email: "boxingtherapiepremium@gmail.com",
-  priceRange: "CHF 95–120",
-  sport: "Boxing",
-};
-
 function SiteContent() {
   const { activePage } = useNavigation();
   const ActiveSection = PAGE_COMPONENTS[activePage] || Hero;
@@ -110,26 +90,14 @@ export default function Home() {
 
   return (
     <div className="bg-mesh min-h-screen">
-      <Script
-        id="schema-jsonld"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }}
-      />
-      <AnimatePresence mode="wait">
-        {loading ? (
-          <LoadingScreen key="loading" />
-        ) : (
-          <motion.div
-            key="content"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <NavigationProvider>
-              <SiteContent />
-            </NavigationProvider>
-          </motion.div>
-        )}
+      {/* Content is always mounted (and server-rendered) so crawlers receive
+          the real hero copy and headings in the initial HTML. The branded
+          splash is an overlay that fades out on top of it. */}
+      <NavigationProvider>
+        <SiteContent />
+      </NavigationProvider>
+      <AnimatePresence>
+        {loading && <LoadingScreen key="loading" />}
       </AnimatePresence>
     </div>
   );
