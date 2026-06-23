@@ -6,7 +6,15 @@ import { Menu, X } from "lucide-react";
 import BrandLogo from "../../ui/BrandLogo";
 import { useNavigation } from "../../context/NavigationContext";
 
-const NAV_IDS = ["about", "coach", "promo", "contact", "agenda", "reglement"];
+const NAV_IDS = [
+  "about",
+  "coach",
+  "promo",
+  "tarifs",
+  "contact",
+  "agenda",
+  "reglement",
+];
 
 const LANGS = ["fr", "en", "de"];
 

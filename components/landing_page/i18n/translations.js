@@ -14,6 +14,7 @@ export const TRANSLATIONS = {
       about: "À propos",
       coach: "Coach",
       promo: "Promotion",
+      tarifs: "Tarifs",
       contact: "Contact",
       agenda: "Agenda",
       reglement: "Règlement",
@@ -40,7 +41,7 @@ export const TRANSLATIONS = {
       para1:
         "Beaucoup de personnes rêvent de boxer… mais n'osent pas franchir la porte d'une salle. La peur du **regard des autres**, l'anxiété, le sentiment de ne pas être à la hauteur. En cours collectif, le coach partage son attention entre des dizaines d'élèves : difficile de prendre le temps pour chacun.",
       para2:
-        "C'est exactement pour cela qu'est né le cours **Premium**. Un espace où vous êtes seul face au coach, où chaque séance est pensée pour vous : corriger vos lacunes, progresser à votre rythme et révéler votre plein potentiel.",
+        "C'est exactement pour cela qu'est né le cours **Premium**. Un espace pensé pour vous — seul face au coach, ou accompagné d'un ami, en duo, à trois ou en petit groupe. Quelle que soit la formule choisie, chaque séance reste centrée sur vous : corriger vos lacunes, progresser à votre rythme et révéler votre plein potentiel, dans un cadre toujours bienveillant et sans jugement.",
       features: [
         {
           title: "Sans jugement",
@@ -66,8 +67,9 @@ export const TRANSLATIONS = {
       bio: [
         "La boxe a commencé comme un moyen de me défendre. Elle est devenue ma thérapie, puis ma vocation.",
         "Je pratique la boxe depuis l'âge de 12 ans. Au départ, je voulais simplement apprendre à me défendre face aux moqueries et aux humiliations. Mais dès ma première salle, j'ai ressenti autre chose : un apaisement profond. La boxe n'était plus un sport, c'était un équilibre.",
+        "Au fil de mon parcours, j'ai mené une belle carrière en amateur dans le circuit suisse, qui m'a permis d'affiner ma technique et de comprendre la boxe de l'intérieur — comme compétiteur, avant de devenir coach.",
         "Pendant le Covid, j'ai continué à m'entraîner avec discipline et à partager ma passion sur les réseaux. Des amis sont venus, puis des amis d'amis. Sans salle, sans douche, dehors, par tous les temps. En quelques mois, nous sommes passés de 5 à 50 élèves.",
-        "Porté par ma famille, mes amis et mes proches, j'ai ouvert une première salle de 140 m². Six mois plus tard, le club comptait déjà 150 membres. Aujourd'hui, c'est une salle de 400 m² qui accueille plus de 300 passionnés.",
+        "Porté par ma famille, mes amis et mes proches, j'ai ouvert une première salle de 140 m². Six mois plus tard, le club comptait déjà 150 membres. Aujourd'hui, c'est une salle de 400 m² qui accueille plus de 250 passionnés.",
         "Au fil des années, j'ai enseigné la boxe à de nombreuses personnes — et certaines ont à leur tour ouvert leurs propres salles de boxe. C'est ma plus grande fierté. À ce jour, j'ai accompagné plus de 300 personnes en cours privé.",
         "J'enseigne avec patience et passion : ce sont mes deux moteurs. Et je n'arrête jamais d'apprendre. À travers mes voyages, j'enseigne la boxe mais j'apprends aussi des autres coachs, pour offrir à mes élèves la meilleure qualité d'entraînement possible.",
       ],
@@ -81,6 +83,8 @@ export const TRANSLATIONS = {
     agenda: {
       eyebrow: "Agenda",
       title: "Réservez votre séance",
+      subtitle: "Choisissez la date et l'heure qui vous conviennent.",
+      openExternal: "Ouvrir le calendrier de réservation",
       step1: "Choisissez la date",
       step2: "Choisissez l'heure",
       step3: "Vos coordonnées",
@@ -120,13 +124,6 @@ export const TRANSLATIONS = {
       lead: "Plus vous vous engagez, plus vous économisez. Chaque cours, c'est 1h d'accompagnement individuel.",
       packs: [
         {
-          title: "Cours à l'unité",
-          subtitle: "Pour essayer ou venir ponctuellement",
-          per: "1 cours · 1 heure",
-          save: null,
-          cta: "Réserver",
-        },
-        {
           title: "Pack 5 cours",
           subtitle: "Pour progresser régulièrement",
           per: "soit 100 CHF / cours",
@@ -146,12 +143,27 @@ export const TRANSLATIONS = {
         "Réduction **étudiants** et **moins de 18 ans** sur tous les cours et packs. Sur présentation d'un justificatif.",
       note: "Prix en francs suisses (CHF). Paiement par virement (IBAN) ou espèces à la salle. Toute séance doit être annulée au moins 24h à l'avance.",
     },
+    grouprates: {
+      eyebrow: "Tarifs",
+      titleA: "Nos ",
+      titleB: "tarifs",
+      lead: "Venez seul ou à plusieurs : plus vous êtes nombreux, plus le tarif par personne baisse.",
+      ribbon: "Populaire",
+      note: "Prix en francs suisses (CHF) par séance d'1h. Réduction étudiants et moins de 18 ans sur présentation d'un justificatif.",
+      tiers: [
+        { tier: "Solo", persons: "1 personne", sub: "la séance", badge: "Tarif de base", cta: "Réserver" },
+        { tier: "Duo", persons: "2 personnes", sub: "soit 100 / pers.", badge: "−17% / pers.", cta: "Réserver" },
+        { tier: "Trio", persons: "3 personnes", sub: "soit 93 / pers.", badge: "−22% / pers.", cta: "Réserver" },
+        { tier: "Groupe", persons: "4 personnes", sub: "soit 85 / pers.", badge: "−29% / pers.", cta: "Réserver" },
+      ],
+    },
     payment: {
       eyebrow: "Paiement",
       titleA: "Votre ",
       titleB: "commande",
       pack: "Formule choisie",
       amount: "Montant",
+      holder: "Bénéficiaire",
       intro:
         "Réglez votre commande par l'un des moyens ci-dessous. Dès que votre paiement est confirmé, vous recevez un **email de confirmation de votre pack** — vous pouvez ensuite réserver vos séances une par une, quand vous le souhaitez.",
       methods: [
@@ -180,6 +192,11 @@ export const TRANSLATIONS = {
         { title: "Adresse", lines: ["Rue Saint-Pierre 6B", "1700 Fribourg", "Suisse"] },
         { title: "Téléphone", lines: ["078 320 05 83"] },
         { title: "Email", lines: ["boxingtherapiepremium@gmail.com"] },
+        {
+          title: "Déplacements",
+          lead: "Disponible dans le monde entier.",
+          body: "Cours privés à domicile ou en déplacement, sur demande, où que vous soyez.",
+        },
       ],
       cta: "Réserver une séance",
     },
@@ -225,7 +242,8 @@ export const TRANSLATIONS = {
         { id: "about", label: "Le Premium" },
         { id: "coach", label: "Le Coach" },
         { id: "agenda", label: "Agenda" },
-        { id: "promo", label: "Tarifs" },
+        { id: "promo", label: "Formules" },
+        { id: "tarifs", label: "Tarifs" },
         { id: "contact", label: "Contact" },
         { id: "reglement", label: "Règlement" },
       ],
@@ -258,6 +276,7 @@ export const TRANSLATIONS = {
       about: "About",
       coach: "Coach",
       promo: "Pricing",
+      tarifs: "Rates",
       contact: "Contact",
       agenda: "Booking",
       reglement: "Terms",
@@ -284,7 +303,7 @@ export const TRANSLATIONS = {
       para1:
         "Many people dream of boxing… but don't dare step through the door of a gym. The fear of **being watched**, the anxiety, the feeling of not being good enough. In group classes, the coach splits attention between dozens of students: it's hard to take time for everyone.",
       para2:
-        "That is exactly why the **Premium** class was born. A space where it's just you and the coach, where every session is designed for you: correcting your weaknesses, progressing at your own pace and revealing your full potential.",
+        "That is exactly why the **Premium** class was born. A space designed for you — alone with the coach, or with a friend, as a duo, a trio or in a small group. Whatever option you choose, every session stays centered on you: correcting your weaknesses, progressing at your own pace and revealing your full potential, always in a caring, judgment-free environment.",
       features: [
         {
           title: "No judgment",
@@ -310,8 +329,9 @@ export const TRANSLATIONS = {
       bio: [
         "Boxing started as a way to defend myself. It became my therapy, then my calling.",
         "I've practiced boxing since the age of 12. At first, I just wanted to learn how to defend myself against mockery and humiliation. But from my very first gym, I felt something else: a deep sense of calm. Boxing was no longer a sport, it was a balance.",
+        "Along the way, I built a solid amateur career on the Swiss circuit, which let me refine my technique and understand boxing from the inside — as a competitor, before becoming a coach.",
         "During Covid, I kept training with discipline and sharing my passion online. Friends came, then friends of friends. No gym, no showers, outdoors, in all weather. Within a few months, we went from 5 to 50 students.",
-        "Supported by my family, friends and loved ones, I opened a first 140 m² gym. Six months later, the club already had 150 members. Today, a 400 m² gym welcomes more than 300 enthusiasts.",
+        "Supported by my family, friends and loved ones, I opened a first 140 m² gym. Six months later, the club already had 150 members. Today, a 400 m² gym welcomes more than 250 enthusiasts.",
         "Over the years, I've taught boxing to many people — and some have gone on to open their own boxing gyms. That's my greatest pride. To date, I've coached more than 300 people in private lessons.",
         "I teach with patience and passion: these are my two driving forces. And I never stop learning. Through my travels, I teach boxing but also learn from other coaches, to offer my students the best possible training quality.",
       ],
@@ -325,6 +345,8 @@ export const TRANSLATIONS = {
     agenda: {
       eyebrow: "Booking",
       title: "Book your session",
+      subtitle: "Choose the date and time that suit you.",
+      openExternal: "Open the booking calendar",
       step1: "Choose the date",
       step2: "Choose the time",
       step3: "Your details",
@@ -364,13 +386,6 @@ export const TRANSLATIONS = {
       lead: "The more you commit, the more you save. Each lesson is 1h of one-on-one coaching.",
       packs: [
         {
-          title: "Single lesson",
-          subtitle: "To try out or come occasionally",
-          per: "1 lesson · 1 hour",
-          save: null,
-          cta: "Book",
-        },
-        {
           title: "Pack of 5 lessons",
           subtitle: "To progress regularly",
           per: "i.e. 100 CHF / lesson",
@@ -390,12 +405,27 @@ export const TRANSLATIONS = {
         "**Student** and **under-18** discount on all lessons and packs. On presentation of valid proof.",
       note: "Prices in Swiss francs (CHF). Payment by bank transfer (IBAN) or cash at the gym. Any session must be cancelled at least 24h in advance.",
     },
+    grouprates: {
+      eyebrow: "Rates",
+      titleA: "Our ",
+      titleB: "rates",
+      lead: "Come alone or with others: the more of you there are, the lower the price per person.",
+      ribbon: "Popular",
+      note: "Prices in Swiss francs (CHF) per 1h session. Student and under-18 discount on presentation of valid proof.",
+      tiers: [
+        { tier: "Solo", persons: "1 person", sub: "per session", badge: "Base rate", cta: "Book" },
+        { tier: "Duo", persons: "2 people", sub: "i.e. 100 / pers.", badge: "−17% / pers.", cta: "Book" },
+        { tier: "Trio", persons: "3 people", sub: "i.e. 93 / pers.", badge: "−22% / pers.", cta: "Book" },
+        { tier: "Group", persons: "4 people", sub: "i.e. 85 / pers.", badge: "−29% / pers.", cta: "Book" },
+      ],
+    },
     payment: {
       eyebrow: "Payment",
       titleA: "Your ",
       titleB: "order",
       pack: "Selected package",
       amount: "Amount",
+      holder: "Beneficiary",
       intro:
         "Pay for your order using one of the methods below. As soon as your payment is confirmed, you receive a **pack confirmation email** — you can then book your sessions one by one, whenever you like.",
       methods: [
@@ -424,6 +454,11 @@ export const TRANSLATIONS = {
         { title: "Address", lines: ["Rue Saint-Pierre 6B", "1700 Fribourg", "Switzerland"] },
         { title: "Phone", lines: ["078 320 05 83"] },
         { title: "Email", lines: ["boxingtherapiepremium@gmail.com"] },
+        {
+          title: "Travel",
+          lead: "Available worldwide.",
+          body: "Private lessons at home or on the move, on request, wherever you are.",
+        },
       ],
       cta: "Book a session",
     },
@@ -469,7 +504,8 @@ export const TRANSLATIONS = {
         { id: "about", label: "The Premium" },
         { id: "coach", label: "The Coach" },
         { id: "agenda", label: "Booking" },
-        { id: "promo", label: "Pricing" },
+        { id: "promo", label: "Packs" },
+        { id: "tarifs", label: "Rates" },
         { id: "contact", label: "Contact" },
         { id: "reglement", label: "Terms" },
       ],
@@ -502,6 +538,7 @@ export const TRANSLATIONS = {
       about: "Über uns",
       coach: "Coach",
       promo: "Preise",
+      tarifs: "Tarife",
       contact: "Kontakt",
       agenda: "Termine",
       reglement: "Regeln",
@@ -528,7 +565,7 @@ export const TRANSLATIONS = {
       para1:
         "Viele Menschen träumen vom Boxen … trauen sich aber nicht, eine Halle zu betreten. Die Angst vor den **Blicken der anderen**, die Nervosität, das Gefühl, nicht gut genug zu sein. Im Gruppenkurs teilt der Coach seine Aufmerksamkeit auf Dutzende Schüler auf: Es ist schwer, für jeden Zeit zu nehmen.",
       para2:
-        "Genau dafür wurde der **Premium**-Kurs geschaffen. Ein Raum, in dem du allein mit dem Coach bist, in dem jede Sitzung für dich gedacht ist: deine Schwächen ausbessern, in deinem Tempo vorankommen und dein volles Potenzial entfalten.",
+        "Genau dafür wurde der **Premium**-Kurs geschaffen. Ein Raum, der für dich gedacht ist — allein mit dem Coach oder mit einem Freund, zu zweit, zu dritt oder in einer kleinen Gruppe. Welche Variante du auch wählst, jede Sitzung bleibt auf dich ausgerichtet: deine Schwächen ausbessern, in deinem Tempo vorankommen und dein volles Potenzial entfalten — immer in einem wohlwollenden Rahmen, ohne Wertung.",
       features: [
         {
           title: "Ohne Wertung",
@@ -554,8 +591,9 @@ export const TRANSLATIONS = {
       bio: [
         "Boxen begann als Mittel zur Selbstverteidigung. Es wurde zu meiner Therapie, dann zu meiner Berufung.",
         "Ich boxe seit meinem 12. Lebensjahr. Anfangs wollte ich mich nur gegen Spott und Demütigungen verteidigen lernen. Doch schon in meiner ersten Halle spürte ich etwas anderes: eine tiefe Ruhe. Boxen war kein Sport mehr, es war ein Gleichgewicht.",
+        "Im Lauf meines Werdegangs habe ich eine schöne Amateurkarriere im Schweizer Circuit absolviert, die mir erlaubt hat, meine Technik zu verfeinern und das Boxen von innen zu verstehen — als Wettkämpfer, bevor ich Coach wurde.",
         "Während Covid trainierte ich weiter mit Disziplin und teilte meine Leidenschaft online. Freunde kamen, dann Freunde von Freunden. Ohne Halle, ohne Dusche, draußen, bei jedem Wetter. Innerhalb weniger Monate wuchsen wir von 5 auf 50 Schüler.",
-        "Getragen von meiner Familie, meinen Freunden und Angehörigen eröffnete ich eine erste Halle von 140 m². Sechs Monate später zählte der Club bereits 150 Mitglieder. Heute empfängt eine Halle von 400 m² über 300 Begeisterte.",
+        "Getragen von meiner Familie, meinen Freunden und Angehörigen eröffnete ich eine erste Halle von 140 m². Sechs Monate später zählte der Club bereits 150 Mitglieder. Heute empfängt eine Halle von 400 m² über 250 Begeisterte.",
         "Über die Jahre habe ich vielen Menschen das Boxen beigebracht — und einige haben ihrerseits eigene Boxhallen eröffnet. Das ist mein größter Stolz. Bis heute habe ich über 300 Personen im Privatunterricht begleitet.",
         "Ich unterrichte mit Geduld und Leidenschaft: das sind meine beiden Antriebe. Und ich höre nie auf zu lernen. Auf meinen Reisen unterrichte ich Boxen, lerne aber auch von anderen Coaches, um meinen Schülern die bestmögliche Trainingsqualität zu bieten.",
       ],
@@ -569,6 +607,8 @@ export const TRANSLATIONS = {
     agenda: {
       eyebrow: "Termine",
       title: "Buche deine Sitzung",
+      subtitle: "Wähle Datum und Uhrzeit, die dir passen.",
+      openExternal: "Buchungskalender öffnen",
       step1: "Datum wählen",
       step2: "Uhrzeit wählen",
       step3: "Deine Angaben",
@@ -608,13 +648,6 @@ export const TRANSLATIONS = {
       lead: "Je mehr du dich bindest, desto mehr sparst du. Jede Stunde ist 1 Std. individuelles Coaching.",
       packs: [
         {
-          title: "Einzelstunde",
-          subtitle: "Zum Ausprobieren oder gelegentlich",
-          per: "1 Stunde · 1 Std.",
-          save: null,
-          cta: "Buchen",
-        },
-        {
           title: "5er-Paket",
           subtitle: "Um regelmäßig Fortschritte zu machen",
           per: "d.h. 100 CHF / Stunde",
@@ -634,12 +667,27 @@ export const TRANSLATIONS = {
         "**Studenten-** und **Unter-18-Rabatt** auf alle Stunden und Pakete. Gegen Vorlage eines Nachweises.",
       note: "Preise in Schweizer Franken (CHF). Zahlung per Überweisung (IBAN) oder bar in der Halle. Jede Sitzung muss mindestens 24 Std. im Voraus storniert werden.",
     },
+    grouprates: {
+      eyebrow: "Tarife",
+      titleA: "Unsere ",
+      titleB: "Tarife",
+      lead: "Komm allein oder zu mehreren: je mehr ihr seid, desto niedriger der Preis pro Person.",
+      ribbon: "Beliebt",
+      note: "Preise in Schweizer Franken (CHF) pro 1-Std.-Sitzung. Studenten- und Unter-18-Rabatt gegen Vorlage eines Nachweises.",
+      tiers: [
+        { tier: "Solo", persons: "1 Person", sub: "pro Sitzung", badge: "Basispreis", cta: "Buchen" },
+        { tier: "Duo", persons: "2 Personen", sub: "d.h. 100 / Pers.", badge: "−17% / Pers.", cta: "Buchen" },
+        { tier: "Trio", persons: "3 Personen", sub: "d.h. 93 / Pers.", badge: "−22% / Pers.", cta: "Buchen" },
+        { tier: "Gruppe", persons: "4 Personen", sub: "d.h. 85 / Pers.", badge: "−29% / Pers.", cta: "Buchen" },
+      ],
+    },
     payment: {
       eyebrow: "Zahlung",
       titleA: "Deine ",
       titleB: "Bestellung",
       pack: "Gewähltes Paket",
       amount: "Betrag",
+      holder: "Begünstigter",
       intro:
         "Bezahle deine Bestellung über eine der folgenden Methoden. Sobald deine Zahlung bestätigt ist, erhältst du eine **Paket-Bestätigungs-E-Mail** — danach kannst du deine Sitzungen einzeln buchen, wann immer du möchtest.",
       methods: [
@@ -668,6 +716,11 @@ export const TRANSLATIONS = {
         { title: "Adresse", lines: ["Rue Saint-Pierre 6B", "1700 Fribourg", "Schweiz"] },
         { title: "Telefon", lines: ["078 320 05 83"] },
         { title: "E-Mail", lines: ["boxingtherapiepremium@gmail.com"] },
+        {
+          title: "Unterwegs",
+          lead: "Weltweit verfügbar.",
+          body: "Privatunterricht zu Hause oder unterwegs, auf Anfrage, wo immer du bist.",
+        },
       ],
       cta: "Sitzung buchen",
     },
@@ -713,7 +766,8 @@ export const TRANSLATIONS = {
         { id: "about", label: "Das Premium" },
         { id: "coach", label: "Der Coach" },
         { id: "agenda", label: "Termine" },
-        { id: "promo", label: "Preise" },
+        { id: "promo", label: "Pakete" },
+        { id: "tarifs", label: "Tarife" },
         { id: "contact", label: "Kontakt" },
         { id: "reglement", label: "Regeln" },
       ],

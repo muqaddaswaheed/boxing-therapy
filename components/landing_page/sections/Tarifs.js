@@ -9,7 +9,6 @@ import { useNavigation } from "../context/NavigationContext";
 
 // Price/currency data is language-neutral; text comes from translations by index.
 const PACK_META = [
-  { old: null, cur: "CHF", price: "120", popular: false, amount: "120 CHF" },
   { old: "600 CHF", cur: "CHF", price: "500", popular: false, amount: "500 CHF" },
   { old: "1 200 CHF", cur: "CHF", price: "950", popular: true, amount: "950 CHF" },
 ];
@@ -39,7 +38,7 @@ const Tarifs = () => {
           </p>
         </motion.div>
 
-        <div className="mt-[46px] grid grid-cols-1 items-stretch gap-[18px] md:grid-cols-3">
+        <div className="mx-auto mt-[46px] grid max-w-[720px] grid-cols-1 items-stretch gap-[18px] md:grid-cols-2">
           {packs.map((pack, index) => (
             <motion.div
               key={pack.title}

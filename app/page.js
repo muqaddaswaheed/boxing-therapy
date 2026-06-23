@@ -10,6 +10,7 @@ import {
 } from "@/components/landing_page/context/NavigationContext";
 import Navbar from "@/components/landing_page/components/layout/Navbar";
 import Footer from "@/components/landing_page/components/layout/Footer";
+import FloatingWhatsApp from "@/components/landing_page/components/FloatingWhatsApp";
 import LoadingScreen from "@/components/landing_page/components/layout/LoadingScreen";
 import Hero from "@/components/landing_page/sections/Hero";
 import {
@@ -30,8 +31,12 @@ const Agenda = dynamic(() => import("@/components/landing_page/sections/Agenda")
   ssr: false,
 });
 const Tarifs = dynamic(() => import("@/components/landing_page/sections/Tarifs"), {
-  loading: () => <SkeletonSection cards={3} />,
+  loading: () => <SkeletonSection cards={2} />,
 });
+const GroupRates = dynamic(
+  () => import("@/components/landing_page/sections/GroupRates"),
+  { loading: () => <SkeletonSection cards={4} /> }
+);
 const Payment = dynamic(() => import("@/components/landing_page/sections/Payment"), {
   loading: () => <SkeletonBanner />,
   ssr: false,
@@ -50,13 +55,14 @@ const PAGE_COMPONENTS = {
   coach: Coach,
   agenda: Agenda,
   promo: Tarifs,
+  tarifs: GroupRates,
   pay: Payment,
   contact: Contact,
   reglement: Reglement,
 };
 
 function SiteContent() {
-  const { activePage } = useNavigation();
+  const { activePage, lang } = useNavigation();
   const ActiveSection = PAGE_COMPONENTS[activePage] || Hero;
 
   return (
@@ -76,6 +82,7 @@ function SiteContent() {
         </AnimatePresence>
       </main>
       <Footer />
+      <FloatingWhatsApp lang={lang} />
     </>
   );
 }

@@ -4,6 +4,7 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, AlertCircle } from "lucide-react";
 import RichText from "../ui/RichText";
+import { BANK } from "../lib/bank";
 import { useNavigation } from "../context/NavigationContext";
 
 /**
@@ -12,6 +13,7 @@ import { useNavigation } from "../context/NavigationContext";
 const BookingModal = ({ open, when, name, email, onClose }) => {
   const { t } = useNavigation();
   const tr = t.modal;
+  const holderLabel = t.payment.holder;
   const noteText = tr.note
     .replace("{name}", name || "")
     .replace("{email}", email || "");
@@ -72,8 +74,27 @@ const BookingModal = ({ open, when, name, email, onClose }) => {
               <div className="text-[14px] leading-[1.6] text-gris">
                 {tr.transferDesc}
               </div>
-              <div className="mt-2 break-all rounded-[6px] border border-dashed border-gold bg-noir px-[10px] py-2 font-mono text-[15px] font-bold">
-                CH00 0000 0000 0000 0000 0
+              <div className="mt-3 space-y-2">
+                <div className="flex items-center justify-between gap-3 text-[14px]">
+                  <span className="text-gris-fonce">{holderLabel}</span>
+                  <span className="text-right font-bold text-blanc">
+                    {BANK.holder}
+                  </span>
+                </div>
+                <div className="rounded-[6px] border border-dashed border-gold bg-noir px-[10px] py-2">
+                  <span className="mb-1 block text-[10px] uppercase tracking-[0.16em] text-gris-fonce">
+                    IBAN
+                  </span>
+                  <span className="break-all font-mono text-[15px] font-bold text-blanc">
+                    {BANK.iban}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-3 text-[14px]">
+                  <span className="text-gris-fonce">SWIFT/BIC</span>
+                  <span className="font-mono font-bold text-blanc">
+                    {BANK.swift}
+                  </span>
+                </div>
               </div>
             </div>
 

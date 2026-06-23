@@ -6,11 +6,12 @@ import { ArrowRight, CheckCircle } from "lucide-react";
 import Eyebrow from "../ui/Eyebrow";
 import Button from "../ui/Button";
 import RichText from "../ui/RichText";
+import { BANK } from "../lib/bank";
 import { useNavigation } from "../context/NavigationContext";
 
 const METHOD_META = [
-  { iban: "CH00 0000 0000 0000 0000 0", highlight: true },
-  { iban: null, highlight: false },
+  { bank: true, highlight: true },
+  { bank: false, highlight: false },
 ];
 
 const Payment = () => {
@@ -80,9 +81,28 @@ const Payment = () => {
             <div className="text-[14px] leading-[1.6] text-gris">
               {method.description}
             </div>
-            {method.iban && (
-              <div className="mt-2 break-all rounded-[6px] border border-dashed border-gold bg-noir px-[10px] py-2 font-mono text-[15px] font-bold">
-                {method.iban}
+            {method.bank && (
+              <div className="mt-3 space-y-2">
+                <div className="flex items-center justify-between gap-3 text-[14px]">
+                  <span className="text-gris-fonce">{tr.holder}</span>
+                  <span className="text-right font-bold text-blanc">
+                    {BANK.holder}
+                  </span>
+                </div>
+                <div className="rounded-[6px] border border-dashed border-gold bg-noir px-[10px] py-2">
+                  <span className="mb-1 block text-[10px] uppercase tracking-[0.16em] text-gris-fonce">
+                    IBAN
+                  </span>
+                  <span className="break-all font-mono text-[15px] font-bold text-blanc">
+                    {BANK.iban}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-3 text-[14px]">
+                  <span className="text-gris-fonce">SWIFT/BIC</span>
+                  <span className="font-mono font-bold text-blanc">
+                    {BANK.swift}
+                  </span>
+                </div>
               </div>
             )}
           </motion.div>
