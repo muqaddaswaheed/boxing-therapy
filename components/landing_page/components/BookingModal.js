@@ -4,6 +4,7 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, AlertCircle } from "lucide-react";
 import RichText from "../ui/RichText";
+import CopyButton from "../ui/CopyButton";
 import { BANK } from "../lib/bank";
 import { useNavigation } from "../context/NavigationContext";
 
@@ -81,13 +82,16 @@ const BookingModal = ({ open, when, name, email, onClose }) => {
                     {BANK.holder}
                   </span>
                 </div>
-                <div className="rounded-[6px] border border-dashed border-gold bg-noir px-[10px] py-2">
-                  <span className="mb-1 block text-[10px] uppercase tracking-[0.16em] text-gris-fonce">
-                    IBAN
-                  </span>
-                  <span className="break-all font-mono text-[15px] font-bold text-blanc">
-                    {BANK.iban}
-                  </span>
+                <div className="flex items-center gap-2 rounded-[6px] border border-dashed border-gold bg-noir px-[10px] py-2">
+                  <div className="min-w-0 flex-1">
+                    <span className="mb-1 block text-[10px] uppercase tracking-[0.16em] text-gris-fonce">
+                      IBAN
+                    </span>
+                    <span className="break-all font-mono text-[15px] font-bold text-blanc">
+                      {BANK.iban}
+                    </span>
+                  </div>
+                  <CopyButton value={BANK.iban} />
                 </div>
                 <div className="flex items-center justify-between gap-3 text-[14px]">
                   <span className="text-gris-fonce">SWIFT/BIC</span>

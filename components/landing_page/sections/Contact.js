@@ -60,7 +60,7 @@ const Contact = () => {
                   {card.href ? (
                     <a
                       href={card.href}
-                      className="break-all text-white no-underline transition-colors hover:text-gold"
+                      className="break-all text-[12px] text-white no-underline transition-colors hover:text-gold lg:text-[11px]"
                     >
                       {card.lines.join(" ")}
                     </a>
