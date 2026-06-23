@@ -7,7 +7,11 @@ import BrandLogo from "../../ui/BrandLogo";
 import { useNavigation } from "../../context/NavigationContext";
 
 const CONTACT_META = [
-  { icon: MapPin },
+  {
+    icon: MapPin,
+    href: "https://www.google.com/maps/search/?api=1&query=Rue+Saint-Pierre+6B+1700+Fribourg",
+    external: true,
+  },
   { icon: Phone, href: "tel:+41783200583" },
   { icon: Mail, href: "mailto:boxingtherapiepremium@gmail.com" },
 ];
@@ -79,7 +83,13 @@ const Footer = () => {
                 >
                   <item.icon className="mt-[2px] h-[18px] w-[18px] flex-none text-gold" />
                   {item.href ? (
-                    <a href={item.href} className="transition-colors hover:text-white">
+                    <a
+                      href={item.href}
+                      className="transition-colors hover:text-white"
+                      {...(item.external
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {})}
+                    >
                       {body}
                     </a>
                   ) : (
