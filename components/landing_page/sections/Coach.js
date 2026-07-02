@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { User } from "lucide-react";
 import Eyebrow from "../ui/Eyebrow";
 import { useNavigation } from "../context/NavigationContext";
 
@@ -33,12 +33,13 @@ const Coach = () => {
             transition={{ duration: 0.6 }}
             className="relative mx-auto aspect-[3/4] w-full max-w-[340px] overflow-hidden rounded-[16px] border border-bord bg-black md:max-w-none"
           >
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-gris-fonce">
-              <User className="h-12 w-12" strokeWidth={1.5} />
-              <span className="text-[12px] font-semibold uppercase tracking-[0.22em]">
-                {tr.photoPlaceholder}
-              </span>
-            </div>
+            <Image
+              src="/coach.jpg"
+              alt={tr.name}
+              fill
+              sizes="(max-width: 768px) 340px, 40vw"
+              className="object-cover"
+            />
             <span className="absolute bottom-4 left-4 rounded-[8px] bg-gold px-[14px] py-2 text-[12px] font-extrabold uppercase tracking-[0.08em] text-white">
               {tr.name}
             </span>

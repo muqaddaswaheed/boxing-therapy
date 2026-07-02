@@ -39,12 +39,16 @@ const Premium = () => {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mt-5 max-w-[760px] space-y-5"
         >
-          <p className="text-[18px] leading-[1.8] text-blanc">
-            <RichText text={tr.para1} />
-          </p>
-          <p className="text-[18px] leading-[1.8] text-gris">
-            <RichText text={tr.para2} />
-          </p>
+          {tr.intro.map((paragraph, index) => (
+            <p
+              key={index}
+              className={`text-[18px] leading-[1.8] ${
+                index === 0 ? "text-blanc" : "text-gris"
+              }`}
+            >
+              <RichText text={paragraph} />
+            </p>
+          ))}
         </motion.div>
 
         <div className="mt-[46px] grid grid-cols-1 gap-[18px] md:grid-cols-3">

@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import BrandLogo from "../../ui/BrandLogo";
 
 /**
- * Branded full-screen splash: logo fades up while a gold ring pulses,
- * then a thin progress bar sweeps. Shown for the first few seconds.
+ * Branded full-screen splash: logo fades up, then a thin progress bar
+ * sweeps. Shown for the first few seconds.
  */
 const LoadingScreen = () => {
   return (
@@ -22,11 +22,6 @@ const LoadingScreen = () => {
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="relative flex items-center justify-center"
       >
-        <motion.span
-          className="absolute h-[260px] w-[260px] rounded-full border border-gold/30"
-          animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.1, 0.5] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        />
         <BrandLogo size={150} priority />
       </motion.div>
 

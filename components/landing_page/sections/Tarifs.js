@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Star } from "lucide-react";
+import { Star, User } from "lucide-react";
 import Eyebrow from "../ui/Eyebrow";
 import RichText from "../ui/RichText";
 import { useNavigation } from "../context/NavigationContext";
@@ -74,6 +74,13 @@ const Tarifs = () => {
                 {pack.price}
               </div>
               <div className="mt-2 text-[13px] text-gris">{pack.per}</div>
+
+              {pack.forOne && (
+                <div className="mx-auto mt-4 flex items-center justify-center gap-2 rounded-[10px] border border-gold/40 bg-gold/[0.08] px-3 py-2 text-[12px] font-semibold leading-tight text-gold">
+                  <User className="h-[14px] w-[14px] flex-none" strokeWidth={2.2} />
+                  {pack.forOne}
+                </div>
+              )}
 
               <span
                 className={`mt-[14px] inline-block rounded-[30px] bg-rouge px-[14px] py-[6px] text-[12px] font-extrabold text-white ${

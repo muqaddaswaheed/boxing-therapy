@@ -11,9 +11,9 @@
  * emails in the selected language.
  */
 export const CALENDLY_LINKS = {
-  fr: "https://calendly.com/your-name/seance-de-boxe",
-  en: "https://calendly.com/your-name/seance-de-boxe",
-  de: "https://calendly.com/your-name/seance-de-boxe",
+  fr: "https://calendly.com/idreesdev538/30min",
+  en: "https://calendly.com/idreesdev538/30min",
+  de: "https://calendly.com/idreesdev538/30min",
 };
 
 // Dark-theme colors for the embed (brand: black + gold).

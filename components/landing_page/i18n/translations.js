@@ -38,10 +38,12 @@ export const TRANSLATIONS = {
       eyebrow: "Le Premium",
       titleA: "Votre boxe. Votre rythme.",
       titleB: "Rien que pour vous.",
-      para1:
-        "Beaucoup de personnes rêvent de boxer… mais n'osent pas franchir la porte d'une salle. La peur du **regard des autres**, l'anxiété, le sentiment de ne pas être à la hauteur. En cours collectif, le coach partage son attention entre des dizaines d'élèves : difficile de prendre le temps pour chacun.",
-      para2:
-        "C'est exactement pour cela qu'est né le cours **Premium**. Un espace pensé pour vous — seul face au coach, ou accompagné d'un ami, en duo, à trois ou en petit groupe. Quelle que soit la formule choisie, chaque séance reste centrée sur vous : corriger vos lacunes, progresser à votre rythme et révéler votre plein potentiel, dans un cadre toujours bienveillant et sans jugement.",
+      intro: [
+        "Une méthode claire et progressive, sans jugement. Un coach, un élève : vous.",
+        "Que vous souhaitiez améliorer votre technique, perdre du poids, gérer vos émotions, renforcer votre confiance en vous, apprendre à vous défendre ou simplement vous défouler après une longue journée — chaque séance est pensée pour vous, et pour vous seul.",
+        "Pas de cours collectif où vous vous perdez dans la masse. Pas de jugement. Pas de comparaison. Juste vous, le coach, et l'envie d'aller un peu plus loin à chaque séance.",
+        "La boxe n'est pas seulement un sport. C'est un outil puissant pour transformer votre corps, apaiser votre mental et révéler le meilleur de vous-même. C'est exactement pour ça qu'est né **Boxing Thérapie Premium**.",
+      ],
       features: [
         {
           title: "Sans jugement",
@@ -63,15 +65,15 @@ export const TRANSLATIONS = {
     coach: {
       eyebrow: "Le Professeur",
       name: "Evariste",
-      photoPlaceholder: "Ta photo ici",
       bio: [
-        "La boxe a commencé comme un moyen de me défendre. Elle est devenue ma thérapie, puis ma vocation.",
-        "Je pratique la boxe depuis l'âge de 12 ans. Au départ, je voulais simplement apprendre à me défendre face aux moqueries et aux humiliations. Mais dès ma première salle, j'ai ressenti autre chose : un apaisement profond. La boxe n'était plus un sport, c'était un équilibre.",
-        "Au fil de mon parcours, j'ai mené une belle carrière en amateur dans le circuit suisse, qui m'a permis d'affiner ma technique et de comprendre la boxe de l'intérieur — comme compétiteur, avant de devenir coach.",
-        "Pendant le Covid, j'ai continué à m'entraîner avec discipline et à partager ma passion sur les réseaux. Des amis sont venus, puis des amis d'amis. Sans salle, sans douche, dehors, par tous les temps. En quelques mois, nous sommes passés de 5 à 50 élèves.",
-        "Porté par ma famille, mes amis et mes proches, j'ai ouvert une première salle de 140 m². Six mois plus tard, le club comptait déjà 150 membres. Aujourd'hui, c'est une salle de 400 m² qui accueille plus de 250 passionnés.",
-        "Au fil des années, j'ai enseigné la boxe à de nombreuses personnes — et certaines ont à leur tour ouvert leurs propres salles de boxe. C'est ma plus grande fierté. À ce jour, j'ai accompagné plus de 300 personnes en cours privé.",
-        "J'enseigne avec patience et passion : ce sont mes deux moteurs. Et je n'arrête jamais d'apprendre. À travers mes voyages, j'enseigne la boxe mais j'apprends aussi des autres coachs, pour offrir à mes élèves la meilleure qualité d'entraînement possible.",
+        "À 12 ans, je voulais juste apprendre à me défendre. Je ne savais pas que la boxe allait changer ma vie.",
+        "Face aux moqueries et aux humiliations, j'ai poussé la porte d'une salle pour la première fois. Et là, quelque chose d'inattendu s'est produit : un apaisement profond. La boxe n'était plus un sport. C'était un équilibre. Une thérapie.",
+        "Au fil des années, j'ai mené une belle carrière en amateur dans le circuit suisse, qui m'a permis de comprendre la boxe de l'intérieur — comme compétiteur, avant de devenir coach.",
+        "Pendant le Covid, alors que tout s'arrêtait, moi je continuais. Sans salle, sans douche, dehors, par tous les temps. Des amis sont venus, puis des amis d'amis. En quelques mois, nous sommes passés de 5 à 50 élèves.",
+        "Porté par ma famille et mes proches, j'ai ouvert une première salle de 140 m². Six mois plus tard, le club comptait déjà 150 membres. Aujourd'hui, c'est une salle de 400 m² qui accueille plus de 250 passionnés.",
+        "Certains de mes élèves ont à leur tour ouvert leurs propres salles de boxe. C'est ma plus grande fierté. À ce jour, j'ai accompagné plus de 300 personnes en cours privé.",
+        "J'enseigne avec patience et passion — ce sont mes deux moteurs. À travers mes voyages, j'apprends aussi des autres coachs, pour offrir à mes élèves la meilleure qualité d'entraînement possible.",
+        "Mais ce qui me touche le plus profondément, ce ne sont pas les victoires techniques. Ce sont les regards qui changent. Les personnes qui entrent dans la salle avec des doutes, de la peur, des blessures — et qui en ressortent plus fortes, plus calmes, plus libres. Hommes, femmes, enfants : sans même le chercher, le travail dépassait la boxe. Il devenait thérapeutique. Voir mes élèves aller mieux, se relever, se retrouver — ça, pour moi, ça n'a pas de prix.",
       ],
       stats: [
         { num: "10 ans", lab: "D'expérience" },
@@ -126,6 +128,7 @@ export const TRANSLATIONS = {
         {
           title: "Pack 5 cours",
           subtitle: "Pour progresser régulièrement",
+          forOne: "5 séances pour 1 personne · non partageable",
           per: "soit 100 CHF / cours",
           save: "Économisez 100 CHF",
           cta: "Choisir ce pack",
@@ -133,6 +136,7 @@ export const TRANSLATIONS = {
         {
           title: "Pack 10 cours",
           subtitle: "Pour un vrai suivi sur la durée",
+          forOne: "10 séances pour 1 personne · non partageable",
           per: "soit 95 CHF / cours",
           save: "Économisez 250 CHF",
           cta: "Choisir ce pack",
@@ -300,10 +304,12 @@ export const TRANSLATIONS = {
       eyebrow: "The Premium",
       titleA: "Your boxing. Your pace.",
       titleB: "Just for you.",
-      para1:
-        "Many people dream of boxing… but don't dare step through the door of a gym. The fear of **being watched**, the anxiety, the feeling of not being good enough. In group classes, the coach splits attention between dozens of students: it's hard to take time for everyone.",
-      para2:
-        "That is exactly why the **Premium** class was born. A space designed for you — alone with the coach, or with a friend, as a duo, a trio or in a small group. Whatever option you choose, every session stays centered on you: correcting your weaknesses, progressing at your own pace and revealing your full potential, always in a caring, judgment-free environment.",
+      intro: [
+        "A clear, progressive method, without judgment. One coach, one student: you.",
+        "Whether you want to improve your technique, lose weight, manage your emotions, build your self-confidence, learn to defend yourself or simply let off steam after a long day — every session is designed for you, and for you alone.",
+        "No group class where you get lost in the crowd. No judgment. No comparison. Just you, the coach, and the drive to go a little further with every session.",
+        "Boxing isn't just a sport. It's a powerful tool to transform your body, calm your mind and reveal the best in yourself. That's exactly why **Boxing Thérapie Premium** was born.",
+      ],
       features: [
         {
           title: "No judgment",
@@ -325,15 +331,15 @@ export const TRANSLATIONS = {
     coach: {
       eyebrow: "The Instructor",
       name: "Evariste",
-      photoPlaceholder: "Your photo here",
       bio: [
-        "Boxing started as a way to defend myself. It became my therapy, then my calling.",
-        "I've practiced boxing since the age of 12. At first, I just wanted to learn how to defend myself against mockery and humiliation. But from my very first gym, I felt something else: a deep sense of calm. Boxing was no longer a sport, it was a balance.",
-        "Along the way, I built a solid amateur career on the Swiss circuit, which let me refine my technique and understand boxing from the inside — as a competitor, before becoming a coach.",
-        "During Covid, I kept training with discipline and sharing my passion online. Friends came, then friends of friends. No gym, no showers, outdoors, in all weather. Within a few months, we went from 5 to 50 students.",
-        "Supported by my family, friends and loved ones, I opened a first 140 m² gym. Six months later, the club already had 150 members. Today, a 400 m² gym welcomes more than 250 enthusiasts.",
-        "Over the years, I've taught boxing to many people — and some have gone on to open their own boxing gyms. That's my greatest pride. To date, I've coached more than 300 people in private lessons.",
-        "I teach with patience and passion: these are my two driving forces. And I never stop learning. Through my travels, I teach boxing but also learn from other coaches, to offer my students the best possible training quality.",
+        "At 12, I just wanted to learn how to defend myself. I had no idea boxing would change my life.",
+        "Faced with mockery and humiliation, I pushed open the door of a gym for the first time. And there, something unexpected happened: a deep sense of calm. Boxing was no longer a sport. It was a balance. A therapy.",
+        "Over the years, I built a solid amateur career on the Swiss circuit, which let me understand boxing from the inside — as a competitor, before becoming a coach.",
+        "During Covid, while everything was shutting down, I kept going. No gym, no showers, outdoors, in all weather. Friends came, then friends of friends. Within a few months, we went from 5 to 50 students.",
+        "Supported by my family and loved ones, I opened a first 140 m² gym. Six months later, the club already had 150 members. Today, a 400 m² gym welcomes more than 250 enthusiasts.",
+        "Some of my students have gone on to open their own boxing gyms. That's my greatest pride. To date, I've coached more than 300 people in private lessons.",
+        "I teach with patience and passion — these are my two driving forces. Through my travels, I also learn from other coaches, to offer my students the best possible training quality.",
+        "But what moves me most deeply isn't technical victories. It's the way people's eyes change. Those who walk into the gym with doubts, fear, wounds — and walk out stronger, calmer, freer. Men, women, children: without even seeking it, the work went beyond boxing. It became therapeutic. Seeing my students get better, pick themselves up, find themselves again — that, to me, is priceless.",
       ],
       stats: [
         { num: "10 years", lab: "Of experience" },
@@ -388,6 +394,7 @@ export const TRANSLATIONS = {
         {
           title: "Pack of 5 lessons",
           subtitle: "To progress regularly",
+          forOne: "5 sessions for 1 person · not shareable",
           per: "i.e. 100 CHF / lesson",
           save: "Save 100 CHF",
           cta: "Choose this pack",
@@ -395,6 +402,7 @@ export const TRANSLATIONS = {
         {
           title: "Pack of 10 lessons",
           subtitle: "For real long-term follow-up",
+          forOne: "10 sessions for 1 person · not shareable",
           per: "i.e. 95 CHF / lesson",
           save: "Save 250 CHF",
           cta: "Choose this pack",
@@ -562,10 +570,12 @@ export const TRANSLATIONS = {
       eyebrow: "Das Premium",
       titleA: "Dein Boxen. Dein Tempo.",
       titleB: "Nur für dich.",
-      para1:
-        "Viele Menschen träumen vom Boxen … trauen sich aber nicht, eine Halle zu betreten. Die Angst vor den **Blicken der anderen**, die Nervosität, das Gefühl, nicht gut genug zu sein. Im Gruppenkurs teilt der Coach seine Aufmerksamkeit auf Dutzende Schüler auf: Es ist schwer, für jeden Zeit zu nehmen.",
-      para2:
-        "Genau dafür wurde der **Premium**-Kurs geschaffen. Ein Raum, der für dich gedacht ist — allein mit dem Coach oder mit einem Freund, zu zweit, zu dritt oder in einer kleinen Gruppe. Welche Variante du auch wählst, jede Sitzung bleibt auf dich ausgerichtet: deine Schwächen ausbessern, in deinem Tempo vorankommen und dein volles Potenzial entfalten — immer in einem wohlwollenden Rahmen, ohne Wertung.",
+      intro: [
+        "Eine klare, schrittweise Methode, ohne Wertung. Ein Coach, ein Schüler: du.",
+        "Ob du deine Technik verbessern, abnehmen, deine Emotionen in den Griff bekommen, dein Selbstvertrauen stärken, dich verteidigen lernen oder dich einfach nach einem langen Tag auspowern möchtest — jede Sitzung ist für dich gedacht, und nur für dich.",
+        "Kein Gruppenkurs, in dem du in der Masse untergehst. Keine Wertung. Kein Vergleich. Nur du, der Coach und der Wille, mit jeder Sitzung ein Stück weiterzugehen.",
+        "Boxen ist nicht nur ein Sport. Es ist ein kraftvolles Werkzeug, um deinen Körper zu verwandeln, deinen Geist zu beruhigen und das Beste in dir zum Vorschein zu bringen. Genau dafür wurde **Boxing Thérapie Premium** geschaffen.",
+      ],
       features: [
         {
           title: "Ohne Wertung",
@@ -587,15 +597,15 @@ export const TRANSLATIONS = {
     coach: {
       eyebrow: "Der Trainer",
       name: "Evariste",
-      photoPlaceholder: "Dein Foto hier",
       bio: [
-        "Boxen begann als Mittel zur Selbstverteidigung. Es wurde zu meiner Therapie, dann zu meiner Berufung.",
-        "Ich boxe seit meinem 12. Lebensjahr. Anfangs wollte ich mich nur gegen Spott und Demütigungen verteidigen lernen. Doch schon in meiner ersten Halle spürte ich etwas anderes: eine tiefe Ruhe. Boxen war kein Sport mehr, es war ein Gleichgewicht.",
-        "Im Lauf meines Werdegangs habe ich eine schöne Amateurkarriere im Schweizer Circuit absolviert, die mir erlaubt hat, meine Technik zu verfeinern und das Boxen von innen zu verstehen — als Wettkämpfer, bevor ich Coach wurde.",
-        "Während Covid trainierte ich weiter mit Disziplin und teilte meine Leidenschaft online. Freunde kamen, dann Freunde von Freunden. Ohne Halle, ohne Dusche, draußen, bei jedem Wetter. Innerhalb weniger Monate wuchsen wir von 5 auf 50 Schüler.",
-        "Getragen von meiner Familie, meinen Freunden und Angehörigen eröffnete ich eine erste Halle von 140 m². Sechs Monate später zählte der Club bereits 150 Mitglieder. Heute empfängt eine Halle von 400 m² über 250 Begeisterte.",
-        "Über die Jahre habe ich vielen Menschen das Boxen beigebracht — und einige haben ihrerseits eigene Boxhallen eröffnet. Das ist mein größter Stolz. Bis heute habe ich über 300 Personen im Privatunterricht begleitet.",
-        "Ich unterrichte mit Geduld und Leidenschaft: das sind meine beiden Antriebe. Und ich höre nie auf zu lernen. Auf meinen Reisen unterrichte ich Boxen, lerne aber auch von anderen Coaches, um meinen Schülern die bestmögliche Trainingsqualität zu bieten.",
+        "Mit 12 wollte ich nur lernen, mich zu verteidigen. Ich ahnte nicht, dass Boxen mein Leben verändern würde.",
+        "Angesichts von Spott und Demütigungen stieß ich zum ersten Mal die Tür einer Halle auf. Und dort geschah etwas Unerwartetes: eine tiefe Ruhe. Boxen war kein Sport mehr. Es war ein Gleichgewicht. Eine Therapie.",
+        "Über die Jahre habe ich eine schöne Amateurkarriere im Schweizer Circuit absolviert, die mir erlaubt hat, das Boxen von innen zu verstehen — als Wettkämpfer, bevor ich Coach wurde.",
+        "Während Covid, als alles stillstand, machte ich weiter. Ohne Halle, ohne Dusche, draußen, bei jedem Wetter. Freunde kamen, dann Freunde von Freunden. Innerhalb weniger Monate wuchsen wir von 5 auf 50 Schüler.",
+        "Getragen von meiner Familie und meinen Angehörigen eröffnete ich eine erste Halle von 140 m². Sechs Monate später zählte der Club bereits 150 Mitglieder. Heute empfängt eine Halle von 400 m² über 250 Begeisterte.",
+        "Einige meiner Schüler haben ihrerseits eigene Boxhallen eröffnet. Das ist mein größter Stolz. Bis heute habe ich über 300 Personen im Privatunterricht begleitet.",
+        "Ich unterrichte mit Geduld und Leidenschaft — das sind meine beiden Antriebe. Auf meinen Reisen lerne ich auch von anderen Coaches, um meinen Schülern die bestmögliche Trainingsqualität zu bieten.",
+        "Doch was mich am tiefsten berührt, sind nicht die technischen Siege. Es sind die Blicke, die sich verändern. Menschen, die mit Zweifeln, Angst und Verletzungen in die Halle kommen — und stärker, ruhiger, freier wieder hinausgehen. Männer, Frauen, Kinder: ohne es zu suchen, ging die Arbeit über das Boxen hinaus. Sie wurde therapeutisch. Meine Schüler aufblühen zu sehen, sich aufrichten, zu sich selbst finden — das ist für mich unbezahlbar.",
       ],
       stats: [
         { num: "10 Jahre", lab: "Erfahrung" },
@@ -650,6 +660,7 @@ export const TRANSLATIONS = {
         {
           title: "5er-Paket",
           subtitle: "Um regelmäßig Fortschritte zu machen",
+          forOne: "5 Sitzungen für 1 Person · nicht übertragbar",
           per: "d.h. 100 CHF / Stunde",
           save: "Spare 100 CHF",
           cta: "Dieses Paket wählen",
@@ -657,6 +668,7 @@ export const TRANSLATIONS = {
         {
           title: "10er-Paket",
           subtitle: "Für echte langfristige Begleitung",
+          forOne: "10 Sitzungen für 1 Person · nicht übertragbar",
           per: "d.h. 95 CHF / Stunde",
           save: "Spare 250 CHF",
           cta: "Dieses Paket wählen",

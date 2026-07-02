@@ -97,9 +97,6 @@ export default function Home() {
 
   return (
     <div className="bg-mesh min-h-screen">
-      {/* Content is always mounted (and server-rendered) so crawlers receive
-          the real hero copy and headings in the initial HTML. The branded
-          splash is an overlay that fades out on top of it. */}
       <NavigationProvider>
         <SiteContent />
       </NavigationProvider>
