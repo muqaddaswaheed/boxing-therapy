@@ -86,6 +86,7 @@ export const TRANSLATIONS = {
       blockHoursHint: "Cliquez une heure pour la bloquer / débloquer :",
       blockedNone: "Aucune date bloquée.",
       allDay: "Journée entière",
+      search: "Rechercher par code ou nom…",
     },
     nav: {
       about: "À propos",
@@ -436,6 +437,7 @@ export const TRANSLATIONS = {
       blockHoursHint: "Click an hour to block / unblock it:",
       blockedNone: "No blocked dates.",
       allDay: "Whole day",
+      search: "Search by code or name…",
     },
     nav: {
       about: "About",
@@ -786,6 +788,7 @@ export const TRANSLATIONS = {
       blockHoursHint: "Klicke eine Stunde zum Blockieren / Freigeben:",
       blockedNone: "Keine blockierten Daten.",
       allDay: "Ganzer Tag",
+      search: "Suche nach Code oder Name…",
     },
     nav: {
       about: "Über uns",

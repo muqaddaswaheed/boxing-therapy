@@ -39,6 +39,9 @@ export default function AdminPage() {
   const [absences, setAbsences] = useState([]);
   const [blockDate, setBlockDate] = useState("");
 
+  // Search (filters codes + bookings by code or name)
+  const [query, setQuery] = useState("");
+
   // Restore language preference (shared with the site).
   useEffect(() => {
     try {
@@ -147,6 +150,28 @@ export default function AdminPage() {
     (blockedForDate.value === "all" ||
       (Array.isArray(blockedForDate.value) && blockedForDate.value.includes(h)));
 
+  // Search filter (by code or name/email/phone)
+  const q = query.trim().toLowerCase();
+  const matchText = (...vals) =>
+    vals.filter(Boolean).some((v) => String(v).toLowerCase().includes(q));
+  const filteredCodes = !q
+    ? codes
+    : codes.filter((c) => matchText(c.code, c.clientName, c.clientEmail));
+  const filteredBookings = !q
+    ? bookings
+    : bookings.filter((b) =>
+        matchText(
+          b.code,
+          b.contactEmail,
+          ...(b.participants || []).flatMap((p) => [
+            p.firstName,
+            p.lastName,
+            p.email,
+            p.phone,
+          ])
+        )
+      );
+
   const LangSwitch = () => (
     <div className="flex items-center gap-2">
       {LANGS.map((l) => (
@@ -232,6 +257,15 @@ export default function AdminPage() {
           </button>
         </div>
       </div>
+
+      {/* Search */}
+      <input
+        type="search"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder={t.search}
+        className="mb-8 w-full rounded-[12px] border border-bord bg-noir px-4 py-3 text-[14px] text-blanc outline-none focus:border-gold"
+      />
 
       {/* Generate code */}
       <section className="mb-10 rounded-[16px] border border-bord bg-carte p-6">
@@ -370,7 +404,7 @@ export default function AdminPage() {
       {/* Codes table */}
       <section className="mb-10">
         <h2 className="mb-3 text-[14px] font-extrabold uppercase tracking-[0.1em] text-gold">
-          {t.codesTitle} ({codes.length})
+          {t.codesTitle} ({filteredCodes.length})
         </h2>
         <div className="overflow-x-auto rounded-[14px] border border-bord">
           <table className="w-full min-w-[640px] text-left text-[13px]">
@@ -389,7 +423,7 @@ export default function AdminPage() {
               </tr>
             </thead>
             <tbody>
-              {codes.map((c) => (
+              {filteredCodes.map((c) => (
                 <tr key={c._id} className="border-t border-bord text-blanc">
                   <td className="px-4 py-3 font-mono font-bold text-gold">{c.code}</td>
                   <td className="px-4 py-3">
@@ -408,7 +442,7 @@ export default function AdminPage() {
                   <td className="px-4 py-3 text-gris-fonce">{fmtDate(c.createdAt)}</td>
                 </tr>
               ))}
-              {codes.length === 0 && (
+              {filteredCodes.length === 0 && (
                 <tr>
                   <td colSpan={6} className="px-4 py-6 text-center text-gris-fonce">
                     {loading ? t.loading : t.noCodes}
@@ -423,7 +457,7 @@ export default function AdminPage() {
       {/* Bookings table */}
       <section>
         <h2 className="mb-3 text-[14px] font-extrabold uppercase tracking-[0.1em] text-gold">
-          {t.bookingsTitle} ({bookings.length})
+          {t.bookingsTitle} ({filteredBookings.length})
         </h2>
         <div className="overflow-x-auto rounded-[14px] border border-bord">
           <table className="w-full min-w-[720px] text-left text-[13px]">
@@ -447,7 +481,7 @@ export default function AdminPage() {
               </tr>
             </thead>
             <tbody>
-              {bookings.map((b) => (
+              {filteredBookings.map((b) => (
                 <tr key={b._id} className="border-t border-bord align-top text-blanc">
                   <td className="px-4 py-3 text-gris-fonce">{fmtDate(b.createdAt)}</td>
                   <td className="px-4 py-3">
@@ -472,7 +506,7 @@ export default function AdminPage() {
                   </td>
                 </tr>
               ))}
-              {bookings.length === 0 && (
+              {filteredBookings.length === 0 && (
                 <tr>
                   <td colSpan={6} className="px-4 py-6 text-center text-gris-fonce">
                     {loading ? t.loading : t.noBookings}
