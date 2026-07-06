@@ -6,6 +6,7 @@ import {
   SESSION_TYPES,
   participantsFor,
   PAYMENT_METHODS,
+  PACKS,
 } from "@/lib/booking-config";
 import { parseDateKey } from "@/lib/availability";
 
@@ -123,6 +124,7 @@ export async function POST(request) {
     }
 
     const lang = ["fr", "en", "de"].includes(body?.lang) ? body.lang : "fr";
+    const packInfo = PACKS[body?.pack];
 
     const booking = await Booking.create({
       sessionType,
@@ -132,6 +134,8 @@ export async function POST(request) {
       paymentMethod,
       code: usedCode || "",
       lang,
+      pack: packInfo ? body.pack : "",
+      packSessions: packInfo ? packInfo.sessions : null,
       status,
       slotDate,
       slotHour,

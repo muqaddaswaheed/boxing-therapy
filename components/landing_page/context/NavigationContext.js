@@ -51,6 +51,8 @@ export function NavigationProvider({ children }) {
   const [bookingSession, setBookingSession] = useState("solo");
   // Whether the booking was started from a Pack 5/10 (enables the pack-code option).
   const [bookingFromPack, setBookingFromPack] = useState(false);
+  // Which pack was chosen ("pack5" | "pack10" | "").
+  const [bookingPack, setBookingPack] = useState("");
 
   // On mount: a previously saved choice wins; otherwise auto-detect from
   // the browser's preferred languages (falling back to French).
@@ -98,9 +100,10 @@ export function NavigationProvider({ children }) {
   // Open the booking form (Agenda) pre-set to a given session type.
   // fromPack = true only when coming from Pack 5/10 (allows the pack-code option).
   const bookSession = useCallback(
-    (sessionType = "solo", fromPack = false) => {
+    (sessionType = "solo", fromPack = false, pack = "") => {
       setBookingSession(sessionType);
       setBookingFromPack(!!fromPack);
+      setBookingPack(pack);
       navigate("agenda");
     },
     [navigate]
@@ -119,6 +122,7 @@ export function NavigationProvider({ children }) {
     choosePack,
     bookingSession,
     bookingFromPack,
+    bookingPack,
     bookSession,
   };
 

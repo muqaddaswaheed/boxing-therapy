@@ -23,7 +23,8 @@ const emptyParticipant = () => ({
 const fill = (str, n) => (str || "").replace("{n}", n);
 
 const BookingForm = () => {
-  const { t, lang, bookingSession, bookingFromPack } = useNavigation();
+  const { t, lang, bookingSession, bookingFromPack, bookingPack } =
+    useNavigation();
   const tr = t.booking;
   const tiers = t.grouprates.tiers; // aligned with SESSION_TYPE_KEYS order
 
@@ -117,6 +118,7 @@ const BookingForm = () => {
           paymentMethod: payment,
           code: payment === "code" ? code : undefined,
           participants,
+          pack: bookingFromPack ? bookingPack : "",
           lang,
         }),
       });

@@ -487,6 +487,11 @@ export default function AdminPage() {
                   <td className="px-4 py-3 text-gris-fonce">{fmtDate(b.createdAt)}</td>
                   <td className="px-4 py-3">
                     {t.sessions[b.sessionType] || b.sessionType}
+                    {b.pack && (
+                      <span className="mt-1 block text-[11px] font-bold text-gold">
+                        {b.pack === "pack10" ? "Pack 10" : "Pack 5"} · {b.packSessions}
+                      </span>
+                    )}
                   </td>
                   <td className="px-4 py-3 text-gris">
                     {(b.participants || []).map((p, i) => (

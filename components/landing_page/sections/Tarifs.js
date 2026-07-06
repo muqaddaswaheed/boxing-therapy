@@ -9,8 +9,8 @@ import { useNavigation } from "../context/NavigationContext";
 
 // Price/currency data is language-neutral; text comes from translations by index.
 const PACK_META = [
-  { old: "600 CHF", cur: "CHF", price: "500", popular: false, amount: "500 CHF" },
-  { old: "1 200 CHF", cur: "CHF", price: "950", popular: true, amount: "950 CHF" },
+  { type: "pack5", old: "600 CHF", cur: "CHF", price: "500", popular: false, amount: "500 CHF" },
+  { type: "pack10", old: "1 200 CHF", cur: "CHF", price: "950", popular: true, amount: "950 CHF" },
 ];
 
 const Tarifs = () => {
@@ -94,7 +94,7 @@ const Tarifs = () => {
                 <motion.button
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => bookSession("solo", true)}
+                  onClick={() => bookSession("solo", true, pack.type)}
                   className={`w-full cursor-pointer rounded-[10px] border px-4 py-[15px] text-[14px] font-bold transition-colors duration-200 hover:border-gold ${
                     pack.popular
                       ? "border-gold bg-gold text-[#0b0b0d]"
