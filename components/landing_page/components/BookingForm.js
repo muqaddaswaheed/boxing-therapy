@@ -73,13 +73,18 @@ const BookingForm = () => {
       const r = await fetch("/api/codes/validate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ code, email: participants[0].email }),
       });
       const d = await r.json();
       if (d.valid) setCodeState({ status: "valid", remaining: d.remaining });
       else
         setCodeState({
-          status: d.error === "NO_SESSIONS_LEFT" ? "nosessions" : "invalid",
+          status:
+            d.error === "NO_SESSIONS_LEFT"
+              ? "nosessions"
+              : d.error === "CODE_WRONG_PERSON"
+              ? "wrongperson"
+              : "invalid",
         });
     } catch (e) {
       setCodeState({ status: "invalid" });
@@ -88,7 +93,11 @@ const BookingForm = () => {
   };
 
   const participantsValid = participants.every(
-    (p) => p.firstName.trim() && p.lastName.trim() && p.phone.trim()
+    (p) =>
+      p.firstName.trim() &&
+      p.lastName.trim() &&
+      p.phone.trim() &&
+      /.+@.+\..+/.test(p.email.trim())
   );
   const formValid = participantsValid;
 
@@ -124,6 +133,8 @@ const BookingForm = () => {
           CODE_DISABLED: tr.codeInvalid,
           MISSING_CODE: tr.codeInvalid,
           NO_SESSIONS_LEFT: tr.codeNoSessions,
+          CODE_WRONG_PERSON: tr.codeWrongPerson,
+          CODE_EMAIL_REQUIRED: tr.codeEmailRequired,
           PARTICIPANT_COUNT: tr.errFields,
           PARTICIPANT_FIELDS: tr.errFields,
         };
@@ -324,6 +335,8 @@ const BookingForm = () => {
                   <X className="h-4 w-4" />
                   {codeState.status === "nosessions"
                     ? tr.codeNoSessions
+                    : codeState.status === "wrongperson"
+                    ? tr.codeWrongPerson
                     : tr.codeInvalid}
                 </>
               )}

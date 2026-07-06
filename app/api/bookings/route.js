@@ -57,7 +57,7 @@ export async function POST(request) {
       );
     }
     for (const p of participants) {
-      if (!p.firstName || !p.lastName || (!p.email && !p.phone)) {
+      if (!p.firstName || !p.lastName || !p.phone || !/.+@.+\..+/.test(p.email)) {
         return NextResponse.json({ error: "PARTICIPANT_FIELDS" }, { status: 400 });
       }
     }
@@ -87,29 +87,35 @@ export async function POST(request) {
       if (!raw) {
         return NextResponse.json({ error: "MISSING_CODE" }, { status: 400 });
       }
-      // Atomically consume one session only if active and sessions remain.
+      // A code belongs to ONE person → identified by email. Email is required.
+      const redeemer = (participants[0].email || "").trim().toLowerCase();
+      if (!redeemer) {
+        return NextResponse.json({ error: "CODE_EMAIL_REQUIRED" }, { status: 400 });
+      }
+
+      // Atomically consume one session — only if the code is unbound (first use)
+      // or already bound to THIS email. Also binds the code to this email.
       const updated = await Code.findOneAndUpdate(
         {
           code: raw,
           status: "active",
           $expr: { $lt: ["$usedSessions", "$totalSessions"] },
+          $or: [{ clientEmail: "" }, { clientEmail: redeemer }],
         },
-        { $inc: { usedSessions: 1 } },
+        { $inc: { usedSessions: 1 }, $set: { clientEmail: redeemer } },
         { new: true }
       );
       if (!updated) {
-        // Distinguish "not found/exhausted"
+        // Distinguish the exact reason.
         const exists = await Code.findOne({ code: raw });
-        return NextResponse.json(
-          {
-            error: !exists
-              ? "INVALID_CODE"
-              : exists.status !== "active"
-              ? "CODE_DISABLED"
-              : "NO_SESSIONS_LEFT",
-          },
-          { status: 400 }
-        );
+        let error = "INVALID_CODE";
+        if (exists) {
+          if (exists.status !== "active") error = "CODE_DISABLED";
+          else if (exists.clientEmail && exists.clientEmail !== redeemer)
+            error = "CODE_WRONG_PERSON";
+          else error = "NO_SESSIONS_LEFT";
+        }
+        return NextResponse.json({ error }, { status: 400 });
       }
       status = "confirmed";
       usedCode = updated.code;

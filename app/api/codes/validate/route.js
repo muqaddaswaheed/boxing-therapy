@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request) {
   try {
-    const { code } = await request.json();
+    const { code, email } = await request.json();
     if (!code || typeof code !== "string") {
       return NextResponse.json(
         { valid: false, error: "MISSING_CODE" },
@@ -27,6 +27,11 @@ export async function POST(request) {
         error: "NO_SESSIONS_LEFT",
         remaining: 0,
       });
+    }
+    // A code belongs to one person. If already bound and this email differs, reject.
+    const redeemer = (email || "").trim().toLowerCase();
+    if (doc.clientEmail && redeemer && doc.clientEmail !== redeemer) {
+      return NextResponse.json({ valid: false, error: "CODE_WRONG_PERSON" });
     }
 
     return NextResponse.json({

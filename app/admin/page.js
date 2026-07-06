@@ -296,13 +296,14 @@ export default function AdminPage() {
             {t.clientEmail}
             <input
               type="email"
+              required
               value={clientEmail}
               onChange={(e) => setClientEmail(e.target.value)}
               className="rounded-[10px] border border-bord bg-noir p-[10px] text-[14px] text-blanc outline-none focus:border-gold"
             />
           </label>
           <button
-            disabled={genning}
+            disabled={genning || !/.+@.+\..+/.test(clientEmail.trim())}
             className="rounded-[10px] bg-gold px-5 py-[11px] text-[14px] font-bold text-[#0b0b0d] hover:bg-gold-light disabled:opacity-60"
           >
             {genning ? "…" : t.generate}

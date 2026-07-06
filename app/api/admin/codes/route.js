@@ -46,6 +46,10 @@ export async function POST(request) {
     if (!pack) {
       return NextResponse.json({ error: "INVALID_PACK" }, { status: 400 });
     }
+    // Email is required — the code is bound to this client (one person per code).
+    if (!/.+@.+\..+/.test((clientEmail || "").trim())) {
+      return NextResponse.json({ error: "EMAIL_REQUIRED" }, { status: 400 });
+    }
 
     await connectDB();
     const code = await generateUniqueCode();
