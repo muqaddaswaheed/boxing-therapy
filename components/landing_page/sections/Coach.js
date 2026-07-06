@@ -25,7 +25,7 @@ const Coach = () => {
         </motion.div>
 
         <div className="mt-[46px] grid grid-cols-1 items-start gap-12 md:grid-cols-[0.8fr_1.2fr]">
-          {/* Photo placeholder */}
+          {/* Coach photo */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -40,9 +40,6 @@ const Coach = () => {
               sizes="(max-width: 768px) 340px, 40vw"
               className="object-cover"
             />
-            <span className="absolute bottom-4 left-4 rounded-[8px] bg-gold px-[14px] py-2 text-[12px] font-extrabold uppercase tracking-[0.08em] text-white">
-              {tr.name}
-            </span>
           </motion.div>
 
           {/* Bio */}

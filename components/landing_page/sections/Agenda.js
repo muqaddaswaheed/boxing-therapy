@@ -1,23 +1,22 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 import Eyebrow from "../ui/Eyebrow";
-import CalendlyEmbed from "../components/CalendlyEmbed";
+import BookingForm from "../components/BookingForm";
 import { useNavigation } from "../context/NavigationContext";
 
 /**
- * Booking is handled by Calendly (Plan A). The coach manages availability and
- * blocked dates directly in Calendly, which also sends the confirmation email.
- * The booking link lives in ../lib/calendly.js (swap the placeholder there).
+ * Booking is fully custom now (no Calendly): the form collects the session
+ * type, participants, payment / pack code, AND the time slot, then a single
+ * "Confirm" creates the booking and sends the confirmation email.
  */
 const Agenda = () => {
-  const { t, lang } = useNavigation();
+  const { t } = useNavigation();
   const tr = t.agenda;
 
   return (
     <section id="agenda" className="px-4 py-16 md:px-7 md:py-24">
-      <div className="mx-auto max-w-[860px]">
+      <div className="mx-auto max-w-[720px]">
         <div className="text-center">
           <Eyebrow>{tr.eyebrow}</Eyebrow>
           <h2 className="font-display mt-[18px] text-[clamp(34px,6vw,58px)] font-extrabold leading-none text-white">
@@ -28,15 +27,9 @@ const Agenda = () => {
           </p>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mt-10 overflow-hidden rounded-[16px] border border-bord bg-carte p-2 md:p-3"
-        >
-          <CalendlyEmbed lang={lang} fallbackLabel={tr.openExternal} />
-        </motion.div>
+        <div className="mt-10">
+          <BookingForm />
+        </div>
       </div>
     </section>
   );

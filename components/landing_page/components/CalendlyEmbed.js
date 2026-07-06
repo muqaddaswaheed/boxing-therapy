@@ -4,15 +4,23 @@ import React, { useEffect, useRef } from "react";
 import { getCalendlyUrl, getCalendlyLink } from "../lib/calendly";
 
 const SCRIPT_SRC = "https://assets.calendly.com/assets/external/widget.js";
+const isEmail = (e) => /.+@.+\..+/.test(e || "");
 
 /**
- * Inline Calendly embed. Loads Calendly's widget script once, then mounts the
- * scheduling widget into this container. Re-initialises whenever the language
- * changes so the booking page (and the matching event/email) follows the
- * language the user selected on the site.
+ * Inline Calendly embed with prefill. The invitee's name/email (and any guest
+ * emails) collected in our form are passed into Calendly so they don't retype
+ * them — leaving just the "Schedule Event" click. Re-initialises when the
+ * language changes or once a valid email is entered.
  */
-const CalendlyEmbed = ({ lang = "fr", fallbackLabel }) => {
+const CalendlyEmbed = ({ lang = "fr", fallbackLabel, prefill, utmContent }) => {
   const containerRef = useRef(null);
+
+  const ready = isEmail(prefill?.email);
+  const guests = (prefill?.guests || []).filter(isEmail);
+  // Only re-init on meaningful changes (avoids reloading on every keystroke).
+  const prefillKey = `${utmContent || ""}|${
+    ready ? `${prefill.name || ""}|${prefill.email}|${guests.join(",")}` : ""
+  }`;
 
   useEffect(() => {
     const themedUrl = getCalendlyUrl(lang);
@@ -23,6 +31,10 @@ const CalendlyEmbed = ({ lang = "fr", fallbackLabel }) => {
         window.Calendly.initInlineWidget({
           url: themedUrl,
           parentElement: containerRef.current,
+          prefill: ready
+            ? { name: prefill.name, email: prefill.email, guests }
+            : {},
+          utm: utmContent ? { utmContent } : undefined,
         });
       }
     };
@@ -43,13 +55,13 @@ const CalendlyEmbed = ({ lang = "fr", fallbackLabel }) => {
     return () => {
       if (script) script.removeEventListener("load", init);
     };
-  }, [lang]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang, prefillKey]);
 
   const plainUrl = getCalendlyLink(lang);
 
   return (
     <div>
-      {/* Calendly mounts its iframe here */}
       <div
         ref={containerRef}
         className="h-[1050px] w-full sm:h-[820px] md:h-[700px]"

@@ -8,14 +8,14 @@ import { useNavigation } from "../context/NavigationContext";
 
 // Price/currency data is language-neutral; text comes from translations by index.
 const TIER_META = [
-  { cur: "CHF", price: "120", amount: "120 CHF", popular: false, badgeColor: "red" },
-  { cur: "CHF", price: "200", amount: "200 CHF", popular: false, badgeColor: "red" },
-  { cur: "CHF", price: "280", amount: "280 CHF", popular: true, badgeColor: "gold" },
-  { cur: "CHF", price: "340", amount: "340 CHF", popular: false, badgeColor: "red" },
+  { type: "solo", cur: "CHF", price: "120", amount: "120 CHF", popular: false, badgeColor: "red" },
+  { type: "duo", cur: "CHF", price: "200", amount: "200 CHF", popular: false, badgeColor: "red" },
+  { type: "trio", cur: "CHF", price: "280", amount: "280 CHF", popular: true, badgeColor: "gold" },
+  { type: "group", cur: "CHF", price: "340", amount: "340 CHF", popular: false, badgeColor: "red" },
 ];
 
 const GroupRates = () => {
-  const { choosePack, t } = useNavigation();
+  const { bookSession, t } = useNavigation();
   const tr = t.grouprates;
   const tiers = TIER_META.map((meta, i) => ({ ...meta, ...tr.tiers[i] }));
 
@@ -102,9 +102,7 @@ const GroupRates = () => {
                 <motion.button
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() =>
-                    choosePack(`${tier.tier} — ${tier.persons}`, tier.amount)
-                  }
+                  onClick={() => bookSession(tier.type)}
                   className={`w-full cursor-pointer rounded-[12px] border px-4 py-[15px] text-[15px] font-bold transition-colors duration-200 hover:border-gold ${
                     tier.popular
                       ? "border-gold bg-gold text-[#0b0b0d]"

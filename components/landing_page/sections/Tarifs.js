@@ -14,7 +14,7 @@ const PACK_META = [
 ];
 
 const Tarifs = () => {
-  const { choosePack, t } = useNavigation();
+  const { bookSession, t } = useNavigation();
   const tr = t.tarifs;
   const packs = PACK_META.map((meta, i) => ({ ...meta, ...tr.packs[i] }));
 
@@ -94,7 +94,7 @@ const Tarifs = () => {
                 <motion.button
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => choosePack(pack.title, pack.amount)}
+                  onClick={() => bookSession("solo", true)}
                   className={`w-full cursor-pointer rounded-[10px] border px-4 py-[15px] text-[14px] font-bold transition-colors duration-200 hover:border-gold ${
                     pack.popular
                       ? "border-gold bg-gold text-[#0b0b0d]"
@@ -116,11 +116,11 @@ const Tarifs = () => {
           transition={{ duration: 0.5 }}
           className="mt-9 flex flex-wrap items-center justify-center gap-6 rounded-[18px] border border-bord bg-carte px-[34px] py-[30px] text-center"
         >
-          <div className="text-[42px] font-extrabold leading-none text-rouge">
-            −10%
+          <div className="whitespace-nowrap text-[42px] font-extrabold leading-none text-rouge">
+            −50 CHF
           </div>
           <div className="max-w-[500px] text-[16px] leading-[1.6] text-gris">
-            <RichText text={tr.studentText} strongClassName="text-blanc" />
+            <RichText text={tr.under18Text} strongClassName="text-blanc" />
           </div>
         </motion.div>
 

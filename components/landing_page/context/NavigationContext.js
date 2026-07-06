@@ -47,6 +47,10 @@ export function NavigationProvider({ children }) {
   const [activePage, setActivePage] = useState("home");
   const [lang, setLangState] = useState("fr");
   const [payInfo, setPayInfo] = useState({ pack: "—", amount: "—" });
+  // Desired session type to pre-select in the booking form (solo/duo/trio/group).
+  const [bookingSession, setBookingSession] = useState("solo");
+  // Whether the booking was started from a Pack 5/10 (enables the pack-code option).
+  const [bookingFromPack, setBookingFromPack] = useState(false);
 
   // On mount: a previously saved choice wins; otherwise auto-detect from
   // the browser's preferred languages (falling back to French).
@@ -91,6 +95,17 @@ export function NavigationProvider({ children }) {
     [navigate]
   );
 
+  // Open the booking form (Agenda) pre-set to a given session type.
+  // fromPack = true only when coming from Pack 5/10 (allows the pack-code option).
+  const bookSession = useCallback(
+    (sessionType = "solo", fromPack = false) => {
+      setBookingSession(sessionType);
+      setBookingFromPack(!!fromPack);
+      navigate("agenda");
+    },
+    [navigate]
+  );
+
   const t = TRANSLATIONS[lang] || TRANSLATIONS.fr;
 
   const value = {
@@ -102,6 +117,9 @@ export function NavigationProvider({ children }) {
     t,
     payInfo,
     choosePack,
+    bookingSession,
+    bookingFromPack,
+    bookSession,
   };
 
   return (
