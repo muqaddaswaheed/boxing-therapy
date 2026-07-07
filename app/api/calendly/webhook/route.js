@@ -132,39 +132,29 @@ export async function POST(request) {
         booking.calendlyStart = startIso ? new Date(startIso) : null;
 
         // Deduct one pack-code session NOW (the slot is actually booked).
+        // Plain read-modify-write: easy to trace, runs schema validators,
+        // and avoids any aggregation-pipeline-update edge cases.
         if (booking.paymentMethod === "code" && booking.code && !booking.codeConsumed) {
           const redeemer = booking.contactEmail || "";
-          const updated = await Code.findOneAndUpdate(
-            {
-              code: booking.code,
-              status: "active",
-              $expr: { $lt: ["$usedSessions", "$totalSessions"] },
-              $or: [{ clientEmail: "" }, { clientEmail: redeemer }],
-            },
-            [
-              {
-                $set: {
-                  usedSessions: { $add: ["$usedSessions", 1] },
-                  clientEmail: {
-                    $cond: [{ $eq: ["$clientEmail", ""] }, redeemer, "$clientEmail"],
-                  },
-                },
-              },
-              {
-                $set: {
-                  remaining: {
-                    $max: [0, { $subtract: ["$totalSessions", "$usedSessions"] }],
-                  },
-                },
-              },
-            ],
-            { new: true }
-          );
-          if (updated) {
+          const codeDoc = await Code.findOne({ code: booking.code });
+          if (
+            codeDoc &&
+            codeDoc.status === "active" &&
+            codeDoc.usedSessions < codeDoc.totalSessions &&
+            (!codeDoc.clientEmail || codeDoc.clientEmail === redeemer)
+          ) {
+            if (!codeDoc.clientEmail) codeDoc.clientEmail = redeemer;
+            codeDoc.usedSessions = codeDoc.usedSessions + 1;
+            codeDoc.remaining = Math.max(
+              0,
+              codeDoc.totalSessions - codeDoc.usedSessions
+            );
+            await codeDoc.save();
+
             booking.codeConsumed = true;
             booking.status = "confirmed";
-            remaining = updated.remaining;
-            total = updated.totalSessions;
+            remaining = codeDoc.remaining;
+            total = codeDoc.totalSessions;
           }
         }
         await booking.save();
@@ -194,17 +184,23 @@ export async function POST(request) {
       }
 
       // Send our branded confirmation email with the real date/time.
+      // Email must never fail the webhook — the booking/deduction already
+      // succeeded, and a non-200 makes Calendly retry (double-processing).
       const to = booking.participants?.[0]?.email || payload?.email;
       if (to && slot) {
-        await sendBookingConfirmation({
-          to,
-          name: booking.participants?.[0]?.firstName || payload?.first_name || "",
-          lang,
-          sessionLabel: SESSION_TYPES[booking.sessionType]?.label || "",
-          dateTime: slot.dateTime,
-          remaining,
-          total,
-        });
+        try {
+          await sendBookingConfirmation({
+            to,
+            name: booking.participants?.[0]?.firstName || payload?.first_name || "",
+            lang,
+            sessionLabel: SESSION_TYPES[booking.sessionType]?.label || "",
+            dateTime: slot.dateTime,
+            remaining,
+            total,
+          });
+        } catch (mailErr) {
+          console.error("webhook: email send failed:", mailErr?.message);
+        }
       }
       return NextResponse.json({ ok: true });
     }
@@ -228,6 +224,11 @@ export async function POST(request) {
 
     return NextResponse.json({ ok: true, ignored: eventType });
   } catch (err) {
-    return NextResponse.json({ error: "SERVER_ERROR" }, { status: 500 });
+    console.error("webhook error:", err?.stack || err?.message);
+    // Diagnostic: surface the message so live failures are traceable.
+    return NextResponse.json(
+      { error: "SERVER_ERROR", message: err?.message || String(err) },
+      { status: 500 }
+    );
   }
 }
