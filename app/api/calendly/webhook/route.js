@@ -108,6 +108,14 @@ export async function POST(request) {
       if (bookingId && mongoose.isValidObjectId(bookingId)) {
         booking = await Booking.findById(bookingId);
       }
+      // Fallback: if utm_content didn't come through, link the most recent
+      // not-yet-scheduled booking for this email.
+      if (!booking && payload?.email) {
+        booking = await Booking.findOne({
+          contactEmail: payload.email.trim().toLowerCase(),
+          calendlyEventUri: "",
+        }).sort({ createdAt: -1 });
+      }
 
       const lang = booking?.lang || "fr";
       const slot = startIso ? localizeSlot(startIso, lang) : null;
@@ -162,17 +170,19 @@ export async function POST(request) {
         await booking.save();
       } else {
         // Direct Calendly booking (not started from our form) — create a record.
+        const fullName = (payload?.name || "").trim();
+        const parts = fullName.split(/\s+/).filter(Boolean);
         booking = await Booking.create({
           sessionType: "solo",
           participants: [
             {
-              firstName: payload?.first_name || payload?.name || "—",
-              lastName: payload?.last_name || "",
+              firstName: payload?.first_name || parts[0] || fullName || "—",
+              lastName: payload?.last_name || parts.slice(1).join(" ") || "",
               email: payload?.email || "",
               phone: "",
             },
           ],
-          contactEmail: payload?.email || "",
+          contactEmail: (payload?.email || "").trim().toLowerCase(),
           paymentMethod: "transfer",
           status: "pending",
           lang,

@@ -108,7 +108,6 @@ const BookingForm = () => {
   const participantsValid = participants.every(
     (p) =>
       p.firstName.trim() &&
-      p.lastName.trim() &&
       p.phone.trim() &&
       /.+@.+\..+/.test(p.email.trim())
   );

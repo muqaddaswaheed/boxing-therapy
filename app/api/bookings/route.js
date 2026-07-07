@@ -58,7 +58,7 @@ export async function POST(request) {
       );
     }
     for (const p of participants) {
-      if (!p.firstName || !p.lastName || !p.phone || !/.+@.+\..+/.test(p.email)) {
+      if (!p.firstName || !p.phone || !/.+@.+\..+/.test(p.email)) {
         return NextResponse.json({ error: "PARTICIPANT_FIELDS" }, { status: 400 });
       }
     }
