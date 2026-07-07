@@ -398,7 +398,10 @@ export default function AdminPage() {
                       </div>
                     ))}
                   </td>
-                  <td className="px-4 py-3 text-gris">{b.paymentMethod}</td>
+                  <td className="px-4 py-3 text-gris">
+                    {(t.payMethods && t.payMethods[b.paymentMethod]) ||
+                      b.paymentMethod}
+                  </td>
                   <td className="px-4 py-3 font-mono text-gold">{b.code || "—"}</td>
                   <td className="px-4 py-3">
                     <span
