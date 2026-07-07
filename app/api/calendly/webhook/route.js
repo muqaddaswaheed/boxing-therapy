@@ -130,6 +130,9 @@ export async function POST(request) {
         }
         booking.calendlyEventUri = eventUri;
         booking.calendlyStart = startIso ? new Date(startIso) : null;
+        // The Calendly slot is now scheduled → the booking is confirmed,
+        // regardless of payment method.
+        booking.status = "confirmed";
 
         // Deduct one pack-code session NOW (the slot is actually booked).
         // Plain read-modify-write: easy to trace, runs schema validators,

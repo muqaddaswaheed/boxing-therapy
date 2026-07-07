@@ -12,7 +12,10 @@ export async function GET(request) {
     return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
   }
   await connectDB();
-  const bookings = await Booking.find()
+  // Only confirmed bookings matter — a booking becomes confirmed the moment
+  // the client schedules their Calendly slot. Pending (started but not yet
+  // scheduled) rows are not shown.
+  const bookings = await Booking.find({ status: "confirmed" })
     .sort({ createdAt: -1 })
     .limit(200)
     .lean();
