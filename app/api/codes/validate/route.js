@@ -21,7 +21,8 @@ export async function POST(request) {
     if (!doc || doc.status !== "active") {
       return NextResponse.json({ valid: false, error: "INVALID_CODE" });
     }
-    if (doc.remaining <= 0) {
+    const rem = doc.remaining ?? doc.totalSessions - doc.usedSessions;
+    if (rem <= 0) {
       return NextResponse.json({
         valid: false,
         error: "NO_SESSIONS_LEFT",
@@ -37,7 +38,7 @@ export async function POST(request) {
     return NextResponse.json({
       valid: true,
       packType: doc.packType,
-      remaining: doc.remaining,
+      remaining: rem,
       total: doc.totalSessions,
     });
   } catch (err) {

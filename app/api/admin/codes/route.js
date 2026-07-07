@@ -28,7 +28,13 @@ export async function GET(request) {
     return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
   }
   await connectDB();
-  const codes = await Code.find().sort({ createdAt: -1 }).lean({ virtuals: true });
+  const docs = await Code.find().sort({ createdAt: -1 }).lean();
+  // Prefer the stored `remaining`; fall back to total − used for older codes.
+  const codes = docs.map((c) => ({
+    ...c,
+    remaining:
+      c.remaining ?? Math.max(0, (c.totalSessions || 0) - (c.usedSessions || 0)),
+  }));
   return NextResponse.json({ codes });
 }
 
@@ -58,6 +64,7 @@ export async function POST(request) {
       packType,
       totalSessions: pack.sessions,
       usedSessions: 0,
+      remaining: pack.sessions,
       clientName: clientName.trim(),
       clientEmail: clientEmail.trim().toLowerCase(),
       status: "active",

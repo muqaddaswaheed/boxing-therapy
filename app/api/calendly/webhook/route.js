@@ -113,6 +113,7 @@ export async function POST(request) {
       const slot = startIso ? localizeSlot(startIso, lang) : null;
 
       let remaining = null;
+      let total = null;
 
       if (booking) {
         if (slot) {
@@ -124,26 +125,38 @@ export async function POST(request) {
 
         // Deduct one pack-code session NOW (the slot is actually booked).
         if (booking.paymentMethod === "code" && booking.code && !booking.codeConsumed) {
+          const redeemer = booking.contactEmail || "";
           const updated = await Code.findOneAndUpdate(
             {
               code: booking.code,
               status: "active",
               $expr: { $lt: ["$usedSessions", "$totalSessions"] },
-              $or: [
-                { clientEmail: "" },
-                { clientEmail: booking.contactEmail || "" },
-              ],
+              $or: [{ clientEmail: "" }, { clientEmail: redeemer }],
             },
-            {
-              $inc: { usedSessions: 1 },
-              $set: { clientEmail: booking.contactEmail || "" },
-            },
+            [
+              {
+                $set: {
+                  usedSessions: { $add: ["$usedSessions", 1] },
+                  clientEmail: {
+                    $cond: [{ $eq: ["$clientEmail", ""] }, redeemer, "$clientEmail"],
+                  },
+                },
+              },
+              {
+                $set: {
+                  remaining: {
+                    $max: [0, { $subtract: ["$totalSessions", "$usedSessions"] }],
+                  },
+                },
+              },
+            ],
             { new: true }
           );
           if (updated) {
             booking.codeConsumed = true;
             booking.status = "confirmed";
             remaining = updated.remaining;
+            total = updated.totalSessions;
           }
         }
         await booking.save();
@@ -179,6 +192,8 @@ export async function POST(request) {
           lang,
           sessionLabel: SESSION_TYPES[booking.sessionType]?.label || "",
           dateTime: slot.dateTime,
+          remaining,
+          total,
         });
       }
       return NextResponse.json({ ok: true });

@@ -107,7 +107,8 @@ export async function POST(request) {
       if (doc.clientEmail && doc.clientEmail !== redeemer) {
         return NextResponse.json({ error: "CODE_WRONG_PERSON" }, { status: 400 });
       }
-      if (doc.remaining <= 0) {
+      const rem = doc.remaining ?? doc.totalSessions - doc.usedSessions;
+      if (rem <= 0) {
         return NextResponse.json({ error: "NO_SESSIONS_LEFT" }, { status: 400 });
       }
 

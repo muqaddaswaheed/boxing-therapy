@@ -29,7 +29,7 @@ export const TRANSLATIONS = {
       checkCode: "Vérifier",
       codeValid: "Code valide — {n} séance(s) restante(s).",
       codeInvalid: "Code invalide ou désactivé.",
-      codeNoSessions: "Ce code n'a plus de séance disponible.",
+      codeNoSessions: "Ce code n'a plus de séance disponible. Demandez un nouveau code au coach.",
       codeWrongPerson:
         "Ce code est déjà attribué à une autre personne. Demandez un nouveau code au coach.",
       codeEmailRequired: "Merci d'indiquer votre email pour utiliser un code.",
@@ -389,7 +389,7 @@ export const TRANSLATIONS = {
       checkCode: "Check",
       codeValid: "Valid code — {n} session(s) left.",
       codeInvalid: "Invalid or disabled code.",
-      codeNoSessions: "This code has no sessions left.",
+      codeNoSessions: "This code has no sessions left. Please ask the coach for a new code.",
       codeWrongPerson:
         "This code is already assigned to another person. Please ask the coach for a new one.",
       codeEmailRequired: "Please enter your email to use a code.",
@@ -749,7 +749,7 @@ export const TRANSLATIONS = {
       checkCode: "Prüfen",
       codeValid: "Gültiger Code — {n} Sitzung(en) übrig.",
       codeInvalid: "Ungültiger oder deaktivierter Code.",
-      codeNoSessions: "Dieser Code hat keine Sitzungen mehr.",
+      codeNoSessions: "Dieser Code hat keine Sitzungen mehr. Bitte frage den Coach nach einem neuen Code.",
       codeWrongPerson:
         "Dieser Code ist bereits einer anderen Person zugewiesen. Bitte frage den Coach nach einem neuen.",
       codeEmailRequired: "Bitte gib deine E-Mail an, um einen Code zu verwenden.",

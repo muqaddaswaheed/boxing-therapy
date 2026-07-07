@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "seed:admin": "node --env-file=.env.local scripts/seed-admin.mjs",
-    "setup:calendly": "node --env-file=.env.local scripts/setup-calendly-webhook.mjs"
+    "setup:calendly": "node --env-file=.env.local scripts/setup-calendly-webhook.mjs",
+    "backfill:remaining": "node --env-file=.env.local scripts/backfill-remaining.mjs"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
