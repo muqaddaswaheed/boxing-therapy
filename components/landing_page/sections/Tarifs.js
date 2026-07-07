@@ -4,7 +4,6 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Star, User } from "lucide-react";
 import Eyebrow from "../ui/Eyebrow";
-import RichText from "../ui/RichText";
 import { useNavigation } from "../context/NavigationContext";
 
 // Price/currency data is language-neutral; text comes from translations by index.
@@ -108,19 +107,27 @@ const Tarifs = () => {
           ))}
         </div>
 
-        {/* Student discount */}
+        {/* Youth discount (under 16) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mt-9 flex flex-wrap items-center justify-center gap-6 rounded-[18px] border border-bord bg-carte px-[34px] py-[30px] text-center"
+          className="mt-9 flex flex-col items-center gap-6 rounded-[18px] border border-bord bg-carte px-[34px] py-[30px] sm:flex-row sm:items-start sm:gap-8 sm:text-left"
         >
           <div className="whitespace-nowrap text-[42px] font-extrabold leading-none text-rouge">
             −50 CHF
           </div>
-          <div className="max-w-[500px] text-[16px] leading-[1.6] text-gris">
-            <RichText text={tr.under18Text} strongClassName="text-blanc" />
+          <div className="max-w-[560px] text-[15px] leading-[1.6] text-gris">
+            <div className="mb-1 text-[16px] font-extrabold text-blanc">
+              {tr.youthTitle}
+            </div>
+            <p className="mb-3">{tr.youthLead}</p>
+            <ul className="list-disc space-y-1 pl-5 text-left">
+              {tr.youthBullets.map((b, i) => (
+                <li key={i}>{b}</li>
+              ))}
+            </ul>
           </div>
         </motion.div>
 

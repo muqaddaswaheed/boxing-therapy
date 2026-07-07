@@ -231,8 +231,14 @@ export const TRANSLATIONS = {
           ribbon: "Le plus avantageux",
         },
       ],
-      under18Text:
-        "Réduction **moins de 18 ans** : 50 CHF de réduction sur le pack de 5 cours, sur le pack de 10 cours et sur la séance à l'unité (1h à 120 CHF). Sur présentation d'un justificatif d'âge.",
+      youthTitle: "Réduction jeunes (−16 ans)",
+      youthLead:
+        "Les jeunes de moins de 16 ans bénéficient des avantages suivants, sur présentation d'un justificatif d'âge :",
+      youthBullets: [
+        "50 CHF de réduction sur le pack de 5 cours",
+        "50 CHF de réduction sur le pack de 10 cours",
+        "20 CHF de réduction sur la séance privée à l'unité (1 h), soit 100 CHF au lieu de 120 CHF",
+      ],
       note: "Prix en francs suisses (CHF). Paiement par virement (IBAN) ou espèces à la salle. Toute séance doit être annulée au moins 24h à l'avance.",
     },
     grouprates: {
@@ -241,7 +247,7 @@ export const TRANSLATIONS = {
       titleB: "tarifs",
       lead: "Venez seul ou à plusieurs : plus vous êtes nombreux, plus le tarif par personne baisse.",
       ribbon: "Populaire",
-      note: "Prix en francs suisses (CHF) par séance d'1h. Réduction moins de 18 ans sur présentation d'un justificatif d'âge.",
+      note: "Prix en francs suisses (CHF) par séance d'1h. Réduction moins de 16 ans sur présentation d'un justificatif d'âge.",
       tiers: [
         { tier: "Solo", persons: "1 personne", sub: "la séance", badge: "Tarif de base", cta: "Réserver" },
         { tier: "Duo", persons: "2 personnes", sub: "soit 100 / pers.", badge: "−17% / pers.", cta: "Réserver" },
@@ -585,8 +591,14 @@ export const TRANSLATIONS = {
           ribbon: "Best value",
         },
       ],
-      under18Text:
-        "**Under-18** discount: 50 CHF off the 5-session pack, the 10-session pack and the single session (1h at 120 CHF). On presentation of proof of age.",
+      youthTitle: "Youth discount (under 16)",
+      youthLead:
+        "Under-16s get the following benefits, on presentation of proof of age:",
+      youthBullets: [
+        "50 CHF off the 5-session pack",
+        "50 CHF off the 10-session pack",
+        "20 CHF off the single private session (1 h) — 100 CHF instead of 120 CHF",
+      ],
       note: "Prices in Swiss francs (CHF). Payment by bank transfer (IBAN) or cash at the gym. Any session must be cancelled at least 24h in advance.",
     },
     grouprates: {
@@ -595,7 +607,7 @@ export const TRANSLATIONS = {
       titleB: "rates",
       lead: "Come alone or with others: the more of you there are, the lower the price per person.",
       ribbon: "Popular",
-      note: "Prices in Swiss francs (CHF) per 1h session. Under-18 discount on presentation of proof of age.",
+      note: "Prices in Swiss francs (CHF) per 1h session. Under-16 discount on presentation of proof of age.",
       tiers: [
         { tier: "Solo", persons: "1 person", sub: "per session", badge: "Base rate", cta: "Book" },
         { tier: "Duo", persons: "2 people", sub: "i.e. 100 / pers.", badge: "−17% / pers.", cta: "Book" },
@@ -939,8 +951,14 @@ export const TRANSLATIONS = {
           ribbon: "Bestes Angebot",
         },
       ],
-      under18Text:
-        "**Unter-18-Rabatt**: 50 CHF Rabatt auf das 5er-Paket, das 10er-Paket und die Einzelstunde (1 Std. für 120 CHF). Gegen Vorlage eines Altersnachweises.",
+      youthTitle: "Jugendrabatt (unter 16)",
+      youthLead:
+        "Jugendliche unter 16 erhalten gegen Vorlage eines Altersnachweises folgende Vorteile:",
+      youthBullets: [
+        "50 CHF Rabatt auf das 5er-Paket",
+        "50 CHF Rabatt auf das 10er-Paket",
+        "20 CHF Rabatt auf die private Einzelstunde (1 Std.) — 100 CHF statt 120 CHF",
+      ],
       note: "Preise in Schweizer Franken (CHF). Zahlung per Überweisung (IBAN) oder bar in der Halle. Jede Sitzung muss mindestens 24 Std. im Voraus storniert werden.",
     },
     grouprates: {
@@ -949,7 +967,7 @@ export const TRANSLATIONS = {
       titleB: "Tarife",
       lead: "Komm allein oder zu mehreren: je mehr ihr seid, desto niedriger der Preis pro Person.",
       ribbon: "Beliebt",
-      note: "Preise in Schweizer Franken (CHF) pro 1-Std.-Sitzung. Unter-18-Rabatt gegen Vorlage eines Altersnachweises.",
+      note: "Preise in Schweizer Franken (CHF) pro 1-Std.-Sitzung. Unter-16-Rabatt gegen Vorlage eines Altersnachweises.",
       tiers: [
         { tier: "Solo", persons: "1 Person", sub: "pro Sitzung", badge: "Basispreis", cta: "Buchen" },
         { tier: "Duo", persons: "2 Personen", sub: "d.h. 100 / Pers.", badge: "−17% / Pers.", cta: "Buchen" },
