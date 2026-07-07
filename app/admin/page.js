@@ -3,8 +3,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import CopyButton from "@/components/landing_page/ui/CopyButton";
 import { TRANSLATIONS } from "@/components/landing_page/i18n/translations";
-import { availableHours, parseDateKey } from "@/lib/availability";
-import { fmtHour } from "@/components/landing_page/lib/calendar";
 
 const LANGS = ["fr", "en", "de"];
 const LOCALES = { fr: "fr-CH", en: "en-GB", de: "de-CH" };
@@ -35,10 +33,6 @@ export default function AdminPage() {
   const [newCode, setNewCode] = useState(null);
   const [genning, setGenning] = useState(false);
 
-  // Date-blocking
-  const [absences, setAbsences] = useState([]);
-  const [blockDate, setBlockDate] = useState("");
-
   // Search (filters codes + bookings by code or name)
   const [query, setQuery] = useState("");
 
@@ -52,6 +46,13 @@ export default function AdminPage() {
     }
   }, []);
 
+  // Auto-dismiss the login error after 30 seconds.
+  useEffect(() => {
+    if (!loginErr) return;
+    const timer = setTimeout(() => setLoginErr(""), 30000);
+    return () => clearTimeout(timer);
+  }, [loginErr]);
+
   const changeLang = (l) => {
     setLang(l);
     try {
@@ -64,14 +65,12 @@ export default function AdminPage() {
   const loadData = useCallback(async () => {
     setLoading(true);
     try {
-      const [c, b, a] = await Promise.all([
+      const [c, b] = await Promise.all([
         fetch("/api/admin/codes").then((r) => r.json()),
         fetch("/api/admin/bookings").then((r) => r.json()),
-        fetch("/api/admin/absences").then((r) => r.json()),
       ]);
       setCodes(c.codes || []);
       setBookings(b.bookings || []);
-      setAbsences(a.absences || []);
     } catch (e) {
       /* ignore */
     }
@@ -109,7 +108,6 @@ export default function AdminPage() {
     setAuthed(false);
     setCodes([]);
     setBookings([]);
-    setAbsences([]);
   };
 
   const generate = async (e) => {
@@ -130,25 +128,6 @@ export default function AdminPage() {
     }
     setGenning(false);
   };
-
-  const postAbsence = async (payload) => {
-    const r = await fetch("/api/admin/absences", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    const d = await r.json();
-    if (r.ok) setAbsences(d.absences || []);
-  };
-
-  const blockedForDate = absences.find((a) => a.dateKey === blockDate);
-  const blockDayHours = blockDate
-    ? availableHours(parseDateKey(blockDate).getDay())
-    : [];
-  const hourIsBlocked = (h) =>
-    blockedForDate &&
-    (blockedForDate.value === "all" ||
-      (Array.isArray(blockedForDate.value) && blockedForDate.value.includes(h)));
 
   // Search filter (by code or name/email/phone)
   const q = query.trim().toLowerCase();
@@ -318,88 +297,6 @@ export default function AdminPage() {
             <span className="text-[13px] text-gris">{t.codeGiven}</span>
           </div>
         )}
-      </section>
-
-      {/* Block dates */}
-      <section className="mb-10 rounded-[16px] border border-bord bg-carte p-6">
-        <h2 className="mb-4 text-[14px] font-extrabold uppercase tracking-[0.1em] text-gold">
-          {t.blockTitle}
-        </h2>
-        <div className="flex flex-wrap items-end gap-3">
-          <label className="flex flex-col gap-1.5 text-[11px] font-bold uppercase tracking-[0.04em] text-gris">
-            {t.blockDate}
-            <input
-              type="date"
-              value={blockDate}
-              onChange={(e) => setBlockDate(e.target.value)}
-              className="rounded-[10px] border border-bord bg-noir p-[10px] text-[14px] text-blanc outline-none focus:border-gold"
-            />
-          </label>
-          {blockDate && (
-            <button
-              onClick={() => postAbsence({ dateKey: blockDate, mode: "blockDay" })}
-              className="rounded-[10px] border border-gold bg-gold px-4 py-[11px] text-[13px] font-bold text-[#0b0b0d]"
-            >
-              {t.blockDayBtn}
-            </button>
-          )}
-        </div>
-
-        {blockDate && (
-          <>
-            <div className="mb-2 mt-4 text-[12px] text-gris">{t.blockHoursHint}</div>
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(64px,1fr))] gap-2">
-              {blockDayHours.map((h) => (
-                <button
-                  key={h}
-                  onClick={() =>
-                    postAbsence({ dateKey: blockDate, mode: "toggleHour", hour: h })
-                  }
-                  className={`rounded-[8px] border px-1 py-2 text-[13px] font-bold transition-colors ${
-                    hourIsBlocked(h)
-                      ? "border-gold bg-gold text-[#0b0b0d]"
-                      : "border-bord bg-noir text-blanc hover:border-gold"
-                  }`}
-                >
-                  {fmtHour(h, lang)}
-                </button>
-              ))}
-            </div>
-          </>
-        )}
-
-        {/* Blocked list */}
-        <div className="mt-5 flex flex-col gap-2">
-          {absences.length === 0 && (
-            <div className="text-[13px] text-gris-fonce">{t.blockedNone}</div>
-          )}
-          {absences.map((a) => (
-            <div
-              key={a.dateKey}
-              className="flex items-center justify-between gap-3 rounded-[10px] border border-bord bg-noir px-4 py-2 text-[13px]"
-            >
-              <span className="text-blanc">
-                <span className="font-mono">{a.dateKey}</span>{" "}
-                <span className="text-gris">
-                  ·{" "}
-                  {a.value === "all"
-                    ? t.allDay
-                    : (Array.isArray(a.value) ? a.value : [])
-                        .slice()
-                        .sort((x, y) => x - y)
-                        .map((h) => fmtHour(h, lang))
-                        .join(", ")}
-                </span>
-              </span>
-              <button
-                onClick={() => postAbsence({ dateKey: a.dateKey, mode: "unblock" })}
-                className="rounded-[6px] border border-bord px-3 py-1 text-[12px] font-bold uppercase tracking-[0.08em] text-gris hover:border-gold hover:text-gold"
-              >
-                {t.unblock}
-              </button>
-            </div>
-          ))}
-        </div>
       </section>
 
       {/* Codes table */}

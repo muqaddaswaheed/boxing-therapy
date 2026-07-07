@@ -3,6 +3,7 @@ import crypto from "crypto";
 import mongoose from "mongoose";
 import { connectDB } from "@/lib/db";
 import Booking from "@/lib/models/Booking";
+import Code from "@/lib/models/Code";
 import { SESSION_TYPES } from "@/lib/booking-config";
 import { sendBookingConfirmation } from "@/lib/email";
 
@@ -111,6 +112,8 @@ export async function POST(request) {
       const lang = booking?.lang || "fr";
       const slot = startIso ? localizeSlot(startIso, lang) : null;
 
+      let remaining = null;
+
       if (booking) {
         if (slot) {
           booking.slotDate = slot.slotDate;
@@ -118,6 +121,31 @@ export async function POST(request) {
         }
         booking.calendlyEventUri = eventUri;
         booking.calendlyStart = startIso ? new Date(startIso) : null;
+
+        // Deduct one pack-code session NOW (the slot is actually booked).
+        if (booking.paymentMethod === "code" && booking.code && !booking.codeConsumed) {
+          const updated = await Code.findOneAndUpdate(
+            {
+              code: booking.code,
+              status: "active",
+              $expr: { $lt: ["$usedSessions", "$totalSessions"] },
+              $or: [
+                { clientEmail: "" },
+                { clientEmail: booking.contactEmail || "" },
+              ],
+            },
+            {
+              $inc: { usedSessions: 1 },
+              $set: { clientEmail: booking.contactEmail || "" },
+            },
+            { new: true }
+          );
+          if (updated) {
+            booking.codeConsumed = true;
+            booking.status = "confirmed";
+            remaining = updated.remaining;
+          }
+        }
         await booking.save();
       } else {
         // Direct Calendly booking (not started from our form) — create a record.

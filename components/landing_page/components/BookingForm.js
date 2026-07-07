@@ -61,6 +61,18 @@ const BookingForm = () => {
     if (!bookingFromPack) setPayment((p) => (p === "code" ? "transfer" : p));
   }, [bookingFromPack]);
 
+  // Auto-dismiss error messages after 30 seconds.
+  useEffect(() => {
+    if (result?.type !== "error") return;
+    const timer = setTimeout(() => setResult(null), 30000);
+    return () => clearTimeout(timer);
+  }, [result]);
+  useEffect(() => {
+    if (!codeState || codeState.status === "valid") return;
+    const timer = setTimeout(() => setCodeState(null), 30000);
+    return () => clearTimeout(timer);
+  }, [codeState]);
+
   const updateP = (i, field, val) =>
     setParticipants((prev) =>
       prev.map((p, idx) => (idx === i ? { ...p, [field]: val } : p))

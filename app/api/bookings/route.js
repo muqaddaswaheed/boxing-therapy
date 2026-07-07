@@ -82,6 +82,7 @@ export async function POST(request) {
     let status = "pending";
     let usedCode = null;
     let remaining = null;
+    let codePack = null; // pack info taken from the code (authoritative)
 
     if (paymentMethod === "code") {
       const raw = (body?.code || "").trim().toUpperCase();
@@ -94,37 +95,37 @@ export async function POST(request) {
         return NextResponse.json({ error: "CODE_EMAIL_REQUIRED" }, { status: 400 });
       }
 
-      // Atomically consume one session — only if the code is unbound (first use)
-      // or already bound to THIS email. Also binds the code to this email.
-      const updated = await Code.findOneAndUpdate(
-        {
-          code: raw,
-          status: "active",
-          $expr: { $lt: ["$usedSessions", "$totalSessions"] },
-          $or: [{ clientEmail: "" }, { clientEmail: redeemer }],
-        },
-        { $inc: { usedSessions: 1 }, $set: { clientEmail: redeemer } },
-        { new: true }
-      );
-      if (!updated) {
-        // Distinguish the exact reason.
-        const exists = await Code.findOne({ code: raw });
-        let error = "INVALID_CODE";
-        if (exists) {
-          if (exists.status !== "active") error = "CODE_DISABLED";
-          else if (exists.clientEmail && exists.clientEmail !== redeemer)
-            error = "CODE_WRONG_PERSON";
-          else error = "NO_SESSIONS_LEFT";
-        }
-        return NextResponse.json({ error }, { status: 400 });
+      // VALIDATE only — the session is deducted later, once the Calendly slot
+      // is actually booked (handled by the webhook).
+      const doc = await Code.findOne({ code: raw });
+      if (!doc || doc.status !== "active") {
+        return NextResponse.json(
+          { error: doc && doc.status !== "active" ? "CODE_DISABLED" : "INVALID_CODE" },
+          { status: 400 }
+        );
       }
-      status = "confirmed";
-      usedCode = updated.code;
-      remaining = updated.remaining;
+      if (doc.clientEmail && doc.clientEmail !== redeemer) {
+        return NextResponse.json({ error: "CODE_WRONG_PERSON" }, { status: 400 });
+      }
+      if (doc.remaining <= 0) {
+        return NextResponse.json({ error: "NO_SESSIONS_LEFT" }, { status: 400 });
+      }
+
+      usedCode = doc.code;
+      // The code is the source of truth for the pack size.
+      codePack = { type: doc.packType, sessions: doc.totalSessions };
+      // status stays "pending" — confirmed + deducted on the webhook.
     }
 
     const lang = ["fr", "en", "de"].includes(body?.lang) ? body.lang : "fr";
-    const packInfo = PACKS[body?.pack];
+    // Pack info: prefer the code's pack; otherwise the pack clicked on Promotion.
+    const clickedPack = PACKS[body?.pack];
+    const packType = codePack ? codePack.type : clickedPack ? body.pack : "";
+    const packSessions = codePack
+      ? codePack.sessions
+      : clickedPack
+      ? clickedPack.sessions
+      : null;
 
     const booking = await Booking.create({
       sessionType,
@@ -134,8 +135,8 @@ export async function POST(request) {
       paymentMethod,
       code: usedCode || "",
       lang,
-      pack: packInfo ? body.pack : "",
-      packSessions: packInfo ? packInfo.sessions : null,
+      pack: packType,
+      packSessions,
       status,
       slotDate,
       slotHour,
